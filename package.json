@@ -1,0 +1,27 @@
+{
+  "name": "jet-fuel",
+  "version": "1.0.0",
+  "description": "First project of mod 4",
+  "main": "server.js",
+  "scripts": {
+    "test": "test",
+    "start": "node server.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/gness1804/jet-fuel.git"
+  },
+  "author": "Graham Nessler & Kristen Burgess",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/gness1804/jet-fuel/issues"
+  },
+  "homepage": "https://github.com/gness1804/jet-fuel#readme",
+  "dependencies": {
+    "express": "^4.14.0",
+    "npm": "^4.1.1"
+  },
+  "engines": {
+   "node": "6.2.2"
+ }
+}
