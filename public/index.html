@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width"/>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
+    <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
+    <link rel="stylesheet" style="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/normalize/4.2.0/normalize.css"/>
+    <link rel="stylesheet" style="text/css" href="styles.css"/>
+    <title>Jet Fuel Bookmarker</title>
+  </head>
+  <body>
+    <h1> BOOKMARKER </h1>
+    <input type="text" placeholder="Bookmark Title" id="bookmark-title-input"/>
+    <input type="text" placeholder="Bookmark URL" id="bookmark-url-input"/>
+    <!-- <input type="text" value="Folder Name for this Bookmark" id="bookmark-folder-input"/> -->
+    <select id="bookmark-folder-input">
+      <option value="" id="default-option-for-dropdown">Folder Name for this Bookmark</option>
+    </select>
+    <button
+    type="submit"
+    id="submit-button"
+    >
+    SAVE
+    </button>
+    <input type="text" placeholder="New Folder Name" id="new-folder-input"/>
+    <button id="update-bookmarks-button">Update Bookmarks</button>
+    <button id="create-folder-button">Create New Folder</button>
+
+    <script src="index.js"></script>
+  </body>
+</html>
