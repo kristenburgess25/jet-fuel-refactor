@@ -12,6 +12,10 @@ app.get('/', (request, response) => {
   response.sendFile(path.join(__dirname, 'public/index.html'));
 });
 
+app.get('/bookmarks', (request, response) => {
+  response.send('foo');
+});
+
 app.listen(app.get('port'), () => {
   console.log('The HTTP server is listening at Port 3000.');
 });
