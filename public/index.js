@@ -10,7 +10,7 @@ const makeAPICall = () => {
     if (hitAPI.readyState === XMLHttpRequest.DONE) {
       if (hitAPI.status === 200) {
         //do stuff with the response data, like put it on the page
-        console.log(hitAPI.responseText);
+        console.log(JSON.parse(hitAPI.responseText));
       } else {
         console.error('There was a problem with the API call.');
       }

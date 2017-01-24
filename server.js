@@ -23,9 +23,14 @@ app.listen(app.get('port'), () => {
 });
 
 app.post('/bookmarks', (request, response) => {
-  let newFolder = request.body.folder;
-  folders[newFolder] = [];
-  folders[newFolder].push(request.body);
+  let folderOfNewBookmark = request.body.folder;
+  if (folders[folderOfNewBookmark]) {
+    folders[folderOfNewBookmark].push(request.body);
+  } else {
+    folders[folderOfNewBookmark] = [];
+    folders[folderOfNewBookmark].push(request.body);
+  }
+
   // const { quizId } = request.params;
   // const question = request.body;
   //
