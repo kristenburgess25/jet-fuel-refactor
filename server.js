@@ -22,9 +22,11 @@ app.listen(app.get('port'), () => {
   console.log('The HTTP server is listening at Port 3000.');
 });
 
-app.post('/bookmarks/2', (request, response) => {
-  response.send(request.body);
-  console.log(request.body);
+app.post('/bookmarks', (request, response) => {
+  let newFolder = request.body.folder;
+  folders[newFolder] = [];
+  folders[newFolder].push(request.body);
+  console.log(folders);
   // const { quizId } = request.params;
   // const question = request.body;
   //
