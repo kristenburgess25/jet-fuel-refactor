@@ -38,7 +38,7 @@ $('#submit-button').on('click', () => {
     title: title.val(),
     url: url.val(),
     folder: folder.val(),
-    id: Date.now(),
+    id: Math.floor(((Date.now()) / 1000000000) * Math.random()),
     type: 'bookmark-update',
   })
 })

@@ -32,11 +32,4 @@ app.post('/bookmarks', (request, response) => {
   } else {
     app.locals.folders[requestFolder].push(request.body);
   }
-  // let folderOfNewBookmark = request.body.folder;
-  // if (app.locals.folders[folderOfNewBookmark]) {
-  //   app.locals.folders[folderOfNewBookmark].push(request.body);
-  // } else {
-  //   app.locals.folders[folderOfNewBookmark] = [];
-  //   app.locals.folders[folderOfNewBookmark].push(request.body);
-  // }
 });
