@@ -22,5 +22,10 @@ makeAPICall();
 
 $('#submit-button').on('click', () => {
   let id = 2;
-  axios.post('/bookmarks/2', 'foo');
+  axios.post('/bookmarks/2', {
+    title: title.val(),
+    url: url.val(),
+    folder: folder.val(),
+    id: Date.now(),
+  });
 })

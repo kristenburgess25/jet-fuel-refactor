@@ -6,6 +6,7 @@ const path = require('path');
 let folders = {};
 
 app.use(express.static('public'));
+app.use(bodyParser.json());
 
 app.set('port', process.env.PORT || 3000);
 
@@ -21,8 +22,9 @@ app.listen(app.get('port'), () => {
   console.log('The HTTP server is listening at Port 3000.');
 });
 
-app.post('/bookmarks/:id', (request, response) => {
-  response.send(response.body);
+app.post('/bookmarks/2', (request, response) => {
+  response.send(request.body);
+  console.log(request.body);
   // const { quizId } = request.params;
   // const question = request.body;
   //
