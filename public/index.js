@@ -1,6 +1,7 @@
 let title = $('#bookmark-title-input');
 let url = $('#bookmark-url-input');
 let folder = $('#bookmark-folder-input');
+let newFolder = $('#new-folder-input');
 
 const makeAPICall = () => {
   var hitAPI = new XMLHttpRequest();
@@ -22,12 +23,19 @@ makeAPICall();
 //TODO look up IIFEs in ES6
 
 $('#submit-button').on('click', () => {
-  let id = 2;
   axios.post('/bookmarks', {
     title: title.val(),
     url: url.val(),
     folder: folder.val(),
     id: Date.now(),
+    type: 'bookmark-update',
+  })
+})
+
+$('#create-folder-button').on('click', () => {
+  axios.post('/bookmarks', {
+    folder: newFolder.val(),
+    type: 'folder-update',
   })
 })
 

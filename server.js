@@ -26,11 +26,17 @@ app.listen(app.get('port'), () => {
 });
 
 app.post('/bookmarks', (request, response) => {
-  let folderOfNewBookmark = request.body.folder;
-  if (app.locals.folders[folderOfNewBookmark]) {
-    app.locals.folders[folderOfNewBookmark].push(request.body);
+  let requestFolder = request.body.folder;
+  if (request.body.type === 'folder-update') {
+    app.locals.folders[requestFolder] = [];
   } else {
-    app.locals.folders[folderOfNewBookmark] = [];
-    app.locals.folders[folderOfNewBookmark].push(request.body);
+    app.locals.folders[requestFolder].push(request.body);
   }
+  // let folderOfNewBookmark = request.body.folder;
+  // if (app.locals.folders[folderOfNewBookmark]) {
+  //   app.locals.folders[folderOfNewBookmark].push(request.body);
+  // } else {
+  //   app.locals.folders[folderOfNewBookmark] = [];
+  //   app.locals.folders[folderOfNewBookmark].push(request.body);
+  // }
 });
