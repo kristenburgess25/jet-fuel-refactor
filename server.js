@@ -26,7 +26,6 @@ app.post('/bookmarks', (request, response) => {
   let newFolder = request.body.folder;
   folders[newFolder] = [];
   folders[newFolder].push(request.body);
-  console.log(folders);
   // const { quizId } = request.params;
   // const question = request.body;
   //

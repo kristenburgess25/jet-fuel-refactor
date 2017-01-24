@@ -28,5 +28,9 @@ $('#submit-button').on('click', () => {
     url: url.val(),
     folder: folder.val(),
     id: Date.now(),
-  });
+  })
+})
+
+$('#update-bookmarks-button').on('click', () => {
+  makeAPICall();
 })
