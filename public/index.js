@@ -18,11 +18,12 @@ const makeAPICall = () => {
         for (let prop in JSON.parse(hitAPI.responseText)) {
           let opt = document.createElement('OPTION');
           opt.value = prop;
-          let text1 = document.createTextNode(prop);
+          let text1 = document.createTextNode(JSON.parse(hitAPI.responseText)[prop]['title']);
           opt.appendChild(text1);
+          console.log('text', text1);
           document.querySelector('#bookmark-folder-input').appendChild(opt);
         }
-        console.log(JSON.parse(hitAPI.responseText));
+        console.log('The server response', JSON.parse(hitAPI.responseText)[1167]['title']);
       } else {
         console.error('There was a problem with the API call.');
       }

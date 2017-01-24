@@ -5,7 +5,13 @@ const bodyParser = require('body-parser');
 const path = require('path');
 
 app.locals.folders = {
-
+  1167: {
+    folder: 1167,
+    id: 675,
+    title: 'Hello',
+    type: 'bookmark-update',
+    url: 'google.com',
+  }
 };
 
 app.locals.title = 'Jet Fuel Bookmarker';
