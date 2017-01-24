@@ -5,12 +5,24 @@ const bodyParser = require('body-parser');
 const path = require('path');
 
 app.locals.folders = {
-  1167: {
-    folder: 1167,
-    id: 675,
-    title: 'Hello',
-    type: 'bookmark-update',
-    url: 'google.com',
+  sports: {
+    folderTitle: 'Sports',
+    folderId: 1167,
+    requestType: 'bookmark-update',
+    urls: [
+      {
+        link: 'google.com',
+        parentFolder: 'sports',
+        bookmarkId: 1,
+        requestType: 'bookmark-update',
+      },
+      {
+        link: 'foo.bar',
+        parentFolder: 'sports',
+        bookmarkId: 23,
+        requestType: 'bookmark-update',
+      }
+    ],
   }
 };
 
@@ -34,14 +46,14 @@ app.listen(app.get('port'), () => {
 });
 
 app.post('/bookmarks', (request, response) => {
-  if (request.body.type === 'folder-update') {
-    app.locals.folders[request.body.id] = {
-      name: request.body.name,
-      id: request.body.id,
+  if (request.body.requestType === 'folder-update') {
+    app.locals.folders[request.body.folderTitle] = {
+      folderTitle: request.body.folderTitle,
+      folderId: request.body.folderId,
     };
   } else {
     //add new bookmark to a folder
-    app.locals.folders[request.body.folder] = request.body;
+    app.locals.folders[request.body.parentFolder].urls.push(request.body);
   }
 });
 

@@ -16,14 +16,15 @@ const makeAPICall = () => {
         defaultOption.appendChild(text);
         document.querySelector('#bookmark-folder-input').appendChild(defaultOption);
         for (let prop in JSON.parse(hitAPI.responseText)) {
+          // console.log(JSON.parse(hitAPI.responseText));
           let opt = document.createElement('OPTION');
           opt.value = prop;
-          let text1 = document.createTextNode(JSON.parse(hitAPI.responseText)[prop]['title']);
+          let text1 = document.createTextNode(prop);
           opt.appendChild(text1);
-          console.log('text', text1);
+          // console.log('text', text1);
           document.querySelector('#bookmark-folder-input').appendChild(opt);
         }
-        console.log('The server response', JSON.parse(hitAPI.responseText)[1167]['title']);
+        console.log('The server response', JSON.parse(hitAPI.responseText));
       } else {
         console.error('There was a problem with the API call.');
       }
@@ -36,19 +37,18 @@ makeAPICall();
 
 $('#submit-button').on('click', () => {
   axios.post('/bookmarks', {
-    title: title.val(),
-    url: url.val(),
-    folder: folder.val(),
-    id: Math.floor(((Date.now()) / 1000000000) * Math.random()),
-    type: 'bookmark-update',
+    link: url.val(),
+    parentFolder: folder.val(),
+    bookmarkId: Math.floor(((Date.now()) / 1000000000) * Math.random()),
+    requestType: 'bookmark-update',
   })
 })
 
 $('#create-folder-button').on('click', () => {
   axios.post('/bookmarks', {
-    name: newFolder.val(),
-    id: Math.floor(((Date.now()) / 1000000000) * Math.random()),
-    type: 'folder-update',
+    folderTitle: newFolder.val(),
+    folderId: Math.floor(((Date.now()) / 1000000000) * Math.random()),
+    requestType: 'folder-update',
   })
 })
 
