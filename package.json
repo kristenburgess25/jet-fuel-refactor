@@ -18,6 +18,7 @@
   },
   "homepage": "https://github.com/gness1804/jet-fuel#readme",
   "dependencies": {
+    "body-parser": "^1.15.2",
     "express": "^4.14.0",
     "npm": "^4.1.1"
   },
