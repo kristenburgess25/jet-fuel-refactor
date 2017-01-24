@@ -3,7 +3,10 @@ const express = require('express');
 const app = express();
 const bodyParser = require('body-parser');
 const path = require('path');
-let folders = {};
+
+app.locals.folders = {};
+
+app.locals.title = 'Jet Fuel Bookmarker';
 
 app.use(express.static('public'));
 app.use(bodyParser.json());
@@ -15,7 +18,7 @@ app.get('/', (request, response) => {
 });
 
 app.get('/bookmarks', (request, response) => {
-  response.send(folders);
+  response.send(app.locals.folders );
 });
 
 app.listen(app.get('port'), () => {
@@ -24,33 +27,10 @@ app.listen(app.get('port'), () => {
 
 app.post('/bookmarks', (request, response) => {
   let folderOfNewBookmark = request.body.folder;
-  if (folders[folderOfNewBookmark]) {
-    folders[folderOfNewBookmark].push(request.body);
+  if (app.locals.folders[folderOfNewBookmark]) {
+    app.locals.folders[folderOfNewBookmark].push(request.body);
   } else {
-    folders[folderOfNewBookmark] = [];
-    folders[folderOfNewBookmark].push(request.body);
+    app.locals.folders[folderOfNewBookmark] = [];
+    app.locals.folders[folderOfNewBookmark].push(request.body);
   }
-
-  // const { quizId } = request.params;
-  // const question = request.body;
-  //
-  // for (let requiredParameter of ['title', 'answers']) {
-  //   if (!question[requiredParameter]) {
-  //     return response
-  //       .status(422)
-  //       .send({ error: `Expected format: { title: <String>, answers: <Array> }. You're missing a "${requiredParameter}" property.` });
-  //   }
-  // }
-  //
-  // question.id = question.id || Date.now();
-  //
-  // const quiz = app.locals.quizzes.find(q => q.id == quizId);
-  // if (quiz) {
-  //   quiz.questions.push(question);
-  //   return response.send({ quiz });
-  // } else {
-  //   return response
-  //     .status(404)
-  //     .send({ error: `Quiz with an id of ${quizId} not found.` });
-  //   }
 });
