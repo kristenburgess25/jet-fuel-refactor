@@ -45,7 +45,8 @@ $('#submit-button').on('click', () => {
 
 $('#create-folder-button').on('click', () => {
   axios.post('/bookmarks', {
-    folder: newFolder.val(),
+    name: newFolder.val(),
+    id: Math.floor(((Date.now()) / 1000000000) * Math.random()),
     type: 'folder-update',
   })
 })

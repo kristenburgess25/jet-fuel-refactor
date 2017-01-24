@@ -4,7 +4,13 @@ const app = express();
 const bodyParser = require('body-parser');
 const path = require('path');
 
-app.locals.folders = {};
+app.locals.folders = {
+  sports: [
+    {
+
+    }
+  ],
+};
 
 app.locals.title = 'Jet Fuel Bookmarker';
 
@@ -26,9 +32,12 @@ app.listen(app.get('port'), () => {
 });
 
 app.post('/bookmarks', (request, response) => {
-  let requestFolder = request.body.folder;
+  // let requestFolder = request.body.name;
   if (request.body.type === 'folder-update') {
-    app.locals.folders[requestFolder] = [];
+    app.locals.folders[request.body.id] = {
+      name: request.body.name,
+      id: request.body.id,
+    };
   } else {
     app.locals.folders[requestFolder].push(request.body);
   }
@@ -40,6 +49,21 @@ app.get('/bookmarks/:folder', (request, response) => {
   response.json({
     folder,
   });
+});
+
+app.get('/bookmarks/:folder/:id', (request, response) => {
+  const { folder } = request.params;
+  const { id } = request.params;
+
+  console.log(app.locals.folders[folder]);
+
+  // const target = app.locals.folders[folder].filter((bookmark) => {
+  //     return bookmark.id === id;
+  //   })
+
+  // response.json({
+  //   target,
+  // });
 });
 
 // app.get('/api/secrets/:id/', (request, response) => {
