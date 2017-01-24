@@ -10,7 +10,18 @@ const makeAPICall = () => {
   hitAPI.onreadystatechange = function() {
     if (hitAPI.readyState === XMLHttpRequest.DONE) {
       if (hitAPI.status === 200) {
-        //do stuff with the response data, like put it on the page
+        document.querySelector('#bookmark-folder-input').innerHTML = '';
+        let defaultOption = document.createElement('OPTION');
+        let text = document.createTextNode('Folder Name for this Bookmark');
+        defaultOption.appendChild(text);
+        document.querySelector('#bookmark-folder-input').appendChild(defaultOption);
+        for (let prop in JSON.parse(hitAPI.responseText)) {
+          let opt = document.createElement('OPTION');
+          opt.value = prop;
+          let text1 = document.createTextNode(prop);
+          opt.appendChild(text1);
+          document.querySelector('#bookmark-folder-input').appendChild(opt);
+        }
         console.log(JSON.parse(hitAPI.responseText));
       } else {
         console.error('There was a problem with the API call.');

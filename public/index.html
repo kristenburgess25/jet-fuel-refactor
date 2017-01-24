@@ -13,7 +13,10 @@
     <h1> BOOKMARKER </h1>
     <input type="text" placeholder="Bookmark Title" id="bookmark-title-input"/>
     <input type="text" placeholder="Bookmark URL" id="bookmark-url-input"/>
-    <input type="text" placeholder="Folder Name for this Bookmark" id="bookmark-folder-input"/>
+    <!-- <input type="text" value="Folder Name for this Bookmark" id="bookmark-folder-input"/> -->
+    <select id="bookmark-folder-input">
+      <option value="" id="default-option-for-dropdown">Folder Name for this Bookmark</option>
+    </select>
     <button
     type="submit"
     id="submit-button"
