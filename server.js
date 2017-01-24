@@ -38,7 +38,7 @@ app.get('/', (request, response) => {
 });
 
 app.get('/bookmarks', (request, response) => {
-  response.send(app.locals.folders );
+  response.send(app.locals.folders);
 });
 
 app.listen(app.get('port'), () => {
@@ -54,13 +54,16 @@ app.post('/bookmarks', (request, response) => {
       urls: [],
     };
   } else {
-    //add new bookmark to a folder
     app.locals.folders[request.body.parentFolder].urls.push(request.body);
   }
 });
 
 app.get('/bookmarks/:folder', (request, response) => {
   const { folder } = request.params;
+
+  if (!app.locals.folders.folder) {
+    response.sendStatus(404);
+  }
 
   response.json({
     folder,
@@ -70,28 +73,18 @@ app.get('/bookmarks/:folder', (request, response) => {
 app.get('/bookmarks/:folder/:id', (request, response) => {
   const { folder } = request.params;
   const { id } = request.params;
+  let bookmarks = app.locals.folders[folder].urls;
+  let target;
 
-  console.log(app.locals.folders[folder]);
+  for (var i = 0; i < bookmarks.length; i++) {
+    if (bookmarks[i].bookmarkId === parseInt(id, 10)) {
+      target = bookmarks[i];
+    }
+  }
 
-  // const target = app.locals.folders[folder].filter((bookmark) => {
-  //     return bookmark.id === id;
-  //   })
+  response.json({
+    target,
+  });
 
-  // response.json({
-  //   target,
-  // });
+
 });
-
-// app.get('/api/secrets/:id/', (request, response) => {
-//   const { id } = request.params;
-//   const message = app.locals.secrets[id];
-//   if (!message) {
-//     response.sendStatus(404);
-//   }
-//   response.json(
-//     {
-//       id,
-//       message,
-//     }
-//   );
-// });
