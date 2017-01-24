@@ -35,6 +35,7 @@ const makeAPICall = () => {
 makeAPICall();
 //TODO look up IIFEs in ES6
 
+//create bookmarks
 $('#submit-button').on('click', () => {
   axios.post('/bookmarks', {
     link: url.val(),
@@ -44,6 +45,7 @@ $('#submit-button').on('click', () => {
   })
 })
 
+//create folders
 $('#create-folder-button').on('click', () => {
   axios.post('/bookmarks', {
     folderTitle: newFolder.val(),

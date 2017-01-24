@@ -50,6 +50,8 @@ app.post('/bookmarks', (request, response) => {
     app.locals.folders[request.body.folderTitle] = {
       folderTitle: request.body.folderTitle,
       folderId: request.body.folderId,
+      requestType: 'folder-update',
+      urls: [],
     };
   } else {
     //add new bookmark to a folder
