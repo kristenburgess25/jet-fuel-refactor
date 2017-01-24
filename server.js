@@ -5,11 +5,7 @@ const bodyParser = require('body-parser');
 const path = require('path');
 
 app.locals.folders = {
-  sports: [
-    {
 
-    }
-  ],
 };
 
 app.locals.title = 'Jet Fuel Bookmarker';
@@ -32,14 +28,14 @@ app.listen(app.get('port'), () => {
 });
 
 app.post('/bookmarks', (request, response) => {
-  // let requestFolder = request.body.name;
   if (request.body.type === 'folder-update') {
     app.locals.folders[request.body.id] = {
       name: request.body.name,
       id: request.body.id,
     };
   } else {
-    app.locals.folders[requestFolder].push(request.body);
+    //add new bookmark to a folder
+    app.locals.folders[request.body.folder] = request.body;
   }
 });
 
