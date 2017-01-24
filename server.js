@@ -33,3 +33,25 @@ app.post('/bookmarks', (request, response) => {
     app.locals.folders[requestFolder].push(request.body);
   }
 });
+
+app.get('/bookmarks/:folder', (request, response) => {
+  const { folder } = request.params;
+
+  response.json({
+    folder,
+  });
+});
+
+// app.get('/api/secrets/:id/', (request, response) => {
+//   const { id } = request.params;
+//   const message = app.locals.secrets[id];
+//   if (!message) {
+//     response.sendStatus(404);
+//   }
+//   response.json(
+//     {
+//       id,
+//       message,
+//     }
+//   );
+// });
