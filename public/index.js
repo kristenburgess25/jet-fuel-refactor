@@ -45,7 +45,7 @@ const fetchDisplay = () => {
           if (response.hasOwnProperty(key)) {
             let urls = response[key].urls;
               urls.map((link) => {
-                newArr.push(`<li id="${link.bookmarkId}">${link.longURL}</li>`)
+                newArr.push(`<li id="${link.bookmarkId}" onClick="goToRealURL()">${link.shortURL}</li>`)
               });
             $('#main-folder-display').append(`
               <div>
@@ -62,7 +62,9 @@ const fetchDisplay = () => {
   }
 }
 
-
+const goToRealURL = () => {
+  c
+}
 
 makeAPICall();
 fetchDisplay();
