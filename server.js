@@ -1,9 +1,11 @@
-const http = require("http");
+// const http = require("http");
 const express = require('express');
 const app = express();
 const bodyParser = require('body-parser');
 const path = require('path');
 const shortenURL = require('./shorten-url');
+
+let counter = 0;
 
 app.locals.folders = {
   sports: {
@@ -15,12 +17,16 @@ app.locals.folders = {
         link: shortenURL('http://www.espn.com/'),
         parentFolder: 'sports',
         bookmarkId: 1,
+        dateAddedRaw: 1485364742628,
+        dateAddedHumanReadable: '25 January 2017',
         requestType: 'bookmark-update',
       },
       {
         link: shortenURL('http://bleacherreport.com/'),
         parentFolder: 'sports',
         bookmarkId: 23,
+        dateAddedRaw: 1485364780645,
+        dateAddedHumanReadable: '25 January 2017',
         requestType: 'bookmark-update',
       }
     ],
@@ -61,17 +67,17 @@ app.post('/bookmarks', (request, response) => {
       link: shortenURL(origLink),
       parentFolder: request.body.parentFolder,
       bookmarkId: request.body.bookmarkId,
+      dateAddedRaw: request.body.dateAddedRaw,
+      dateAddedHumanReadable: request.body.dateAddedHumanReadable,
       requestType: request.body.requestType,
     }
     if (origLink.match(validation)) {
       if (!request.body.parentFolder) {
         throw new Error('You must specify a title for your bookmark.');
-        //maybe replace this with text notification to user in app
       }
       app.locals.folders[request.body.parentFolder].urls.push(alteredBookmark);
     } else {
       throw new Error('Invalid URL.')
-      //maybe replace this with text notification to user in app
     }
   }
 });
@@ -100,6 +106,10 @@ app.get('/bookmarks/:folder/:id', (request, response) => {
       target = bookmarks[i];
     }
   }
+
+  counter++;
+
+  console.log(counter);
 
   if (!target) {
     response.sendStatus(404);

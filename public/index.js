@@ -40,6 +40,8 @@ const saveURL = () => {
     link: url.val(),
     parentFolder: folder.val(),
     bookmarkId: Math.floor(((Date.now()) / 1000000000) * Math.random()),
+    dateAddedRaw: Date.now(),
+    dateAddedHumanReadable: Date.now().getMonth(),
     requestType: 'bookmark-update',
   })
 }
