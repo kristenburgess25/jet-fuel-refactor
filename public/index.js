@@ -32,7 +32,7 @@ const makeAPICall = () => {
   }
 }
 
-function displayFolders() {
+function fetchDisplay() {
   var hitAPI = new XMLHttpRequest();
   hitAPI.open('GET', '/bookmarks', true);
   hitAPI.send();
@@ -44,6 +44,10 @@ function displayFolders() {
         let longURL = response.sports.urls;
         console.log('folderNames', folderTitles)
         console.log('urlArray', longURL)
+        folderTitles.forEach((folder) => {
+          console.log('folder', folder)
+          $('#folders-list').append(`<li>` + folder + `</li>`)
+        })
       }
     }
   }
@@ -52,7 +56,7 @@ function displayFolders() {
 
 
 makeAPICall();
-displayFolders();
+fetchDisplay();
 //TODO look up IIFEs in ES6
 
 const saveURL = () => {
