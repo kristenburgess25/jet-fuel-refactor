@@ -3,6 +3,7 @@ const express = require('express');
 const app = express();
 const bodyParser = require('body-parser');
 const path = require('path');
+const shortenURL = require('./shorten-url');
 
 app.locals.folders = {
   sports: {
@@ -11,13 +12,13 @@ app.locals.folders = {
     requestType: 'bookmark-update',
     urls: [
       {
-        link: 'google.com',
+        link: shortenURL('http://www.espn.com/'),
         parentFolder: 'sports',
         bookmarkId: 1,
         requestType: 'bookmark-update',
       },
       {
-        link: 'foo.bar',
+        link: shortenURL('http://bleacherreport.com/'),
         parentFolder: 'sports',
         bookmarkId: 23,
         requestType: 'bookmark-update',
@@ -38,14 +39,21 @@ app.get('/', (request, response) => {
 });
 
 app.get('/bookmarks', (request, response) => {
+  // response.sendFile(path.join(__dirname, 'public/bookmarks.html'));
   response.send(app.locals.folders);
 });
+
+// app.get('/bookmarks', (request, response) => {
+//   response.sendFile(path.join(__dirname, 'public/bookmarks.html'));
+// });
 
 app.listen(app.get('port'), () => {
   console.log('The HTTP server is listening at Port 3000.');
 });
 
 app.post('/bookmarks', (request, response) => {
+  let origLink = request.body.link;
+  let validation = /http(s?)+/;
   if (request.body.requestType === 'folder-update') {
     app.locals.folders[request.body.folderTitle] = {
       folderTitle: request.body.folderTitle,
@@ -54,7 +62,22 @@ app.post('/bookmarks', (request, response) => {
       urls: [],
     };
   } else {
-    app.locals.folders[request.body.parentFolder].urls.push(request.body);
+    let alteredBookmark = {
+      link: shortenURL(origLink),
+      parentFolder: request.body.parentFolder,
+      bookmarkId: request.body.bookmarkId,
+      requestType: request.body.requestType,
+    }
+    if (origLink.match(validation)) {
+      if (!request.body.parentFolder) {
+        throw new Error('You must specify a title for your bookmark.');
+        //maybe replace this with text notification to user in app
+      }
+      app.locals.folders[request.body.parentFolder].urls.push(alteredBookmark);
+    } else {
+      throw new Error('Invalid URL.')
+      //maybe replace this with text notification to user in app
+    }
   }
 });
 
