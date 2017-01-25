@@ -40,13 +40,14 @@ function fetchDisplay() {
     if(hitAPI.readyState === XMLHttpRequest.DONE) {
       if (hitAPI.status === 200) {
         let response = JSON.parse(hitAPI.responseText)
+        let folders = response
         let folderTitles = Object.keys(response);
-        let longURL = response.sports.urls;
+        let urls = response[folderTitles].urls;
         console.log('folderNames', folderTitles)
-        console.log('urlArray', longURL)
+        console.log('urlArray', urls)
         folderTitles.forEach((folder) => {
           console.log('folder', folder)
-          $('#folders-list').append(`<li>` + folder + `</li>`)
+          $('#folders-list').append(`<li class='folder-li'>` + folder + `</li>`)
         })
       }
     }
