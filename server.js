@@ -3,6 +3,7 @@ const express = require('express');
 const app = express();
 const bodyParser = require('body-parser');
 const path = require('path');
+const shortenURL = require('./shorten-url');
 
 app.locals.folders = {
   sports: {
@@ -52,9 +53,6 @@ app.listen(app.get('port'), () => {
 
 app.post('/bookmarks', (request, response) => {
   let origLink = request.body.link;
-  const shortenURL = (link) => {
-    console.log(link);
-  }
   let validation = /http(s?)+/;
   let alteredBookmark = {
     link: shortenURL(origLink),
