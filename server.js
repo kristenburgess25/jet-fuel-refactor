@@ -38,8 +38,8 @@ app.get('/', (request, response) => {
 });
 
 app.get('/bookmarks', (request, response) => {
+  // response.sendFile(path.join(__dirname, 'public/bookmarks.html'));
   response.send(app.locals.folders);
-  response.sendFile(path.join(__dirname, 'public/bookmarks.html'));
 });
 
 // app.get('/bookmarks', (request, response) => {
@@ -52,13 +52,12 @@ app.listen(app.get('port'), () => {
 
 app.post('/bookmarks', (request, response) => {
   let origLink = request.body.link;
-  let shortenedURL = function (origLink) {
-    let postHTTP = origLink.slice(5, origLink.length);
-    console.log(postHTTP);
+  const shortenURL = (link) => {
+    console.log(link);
   }
   let validation = /http(s?)+/;
   let alteredBookmark = {
-    link: shortenedURL,
+    link: shortenURL(origLink),
     parentFolder: request.body.parentFolder,
     bookmarkId: request.body.bookmarkId,
     requestType: request.body.requestType,
@@ -72,6 +71,10 @@ app.post('/bookmarks', (request, response) => {
     };
   } else {
     if (origLink.match(validation)) {
+      if (!request.body.parentFolder) {
+        throw new Error('You must specify a title for your bookmark.');
+        //maybe replace this with text notification to user in app
+      }
       app.locals.folders[request.body.parentFolder].urls.push(alteredBookmark);
     } else {
       throw new Error('Invalid URL.')
