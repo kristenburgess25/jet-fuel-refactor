@@ -16,13 +16,12 @@ const makeAPICall = () => {
         defaultOption.appendChild(text);
         document.querySelector('#bookmark-folder-input').appendChild(defaultOption);
         for (let prop in JSON.parse(hitAPI.responseText)) {
-          // console.log(JSON.parse(hitAPI.responseText));
           let opt = document.createElement('OPTION');
           opt.value = prop;
           let text1 = document.createTextNode(prop);
           opt.appendChild(text1);
-          // console.log('text', text1);
           document.querySelector('#bookmark-folder-input').appendChild(opt);
+          document.querySelector('#main-folder-display').appendChild(opt);
         }
         console.log('The server response', JSON.parse(hitAPI.responseText));
       } else {
@@ -31,6 +30,10 @@ const makeAPICall = () => {
     }
   }
 }
+
+// function displayFolders() {
+// document.querySelector('#main-folder-display').
+// }
 
 makeAPICall();
 //TODO look up IIFEs in ES6
