@@ -1,9 +1,8 @@
 'use strict';
-
 const assert = require('assert');
 const request = require('supertest');
-var express = require('express');
-var app = express();
+const express = require('express');
+const app = require('../');
 
 describe('GET /', () => {
 
