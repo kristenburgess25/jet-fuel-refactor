@@ -11,13 +11,13 @@ app.locals.folders = {
     requestType: 'bookmark-update',
     urls: [
       {
-        link: 'google.com',
+        link: 'http://www.espn.com/',
         parentFolder: 'sports',
         bookmarkId: 1,
         requestType: 'bookmark-update',
       },
       {
-        link: 'foo.bar',
+        link: 'http://bleacherreport.com/',
         parentFolder: 'sports',
         bookmarkId: 23,
         requestType: 'bookmark-update',
@@ -39,7 +39,12 @@ app.get('/', (request, response) => {
 
 app.get('/bookmarks', (request, response) => {
   response.send(app.locals.folders);
+  response.sendFile(path.join(__dirname, 'public/bookmarks.html'));
 });
+
+// app.get('/bookmarks', (request, response) => {
+//   response.sendFile(path.join(__dirname, 'public/bookmarks.html'));
+// });
 
 app.listen(app.get('port'), () => {
   console.log('The HTTP server is listening at Port 3000.');
