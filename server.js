@@ -47,14 +47,13 @@ app.listen(app.get('port'), () => {
 
 app.post('/bookmarks', (request, response) => {
   let origLink = request.body.link;
-  // we need to change request.body.link
-  // const shortenedURL = (origURL) => {
-  //   let rng = Math.floor(Math.random() * 100);
-  //   }
-  // }
+  let shortenedURL = function (origLink) {
+    let postHTTP = origLink.slice(5, origLink.length);
+    console.log(postHTTP);
+  }
   let validation = /http(s?)+/;
   let alteredBookmark = {
-    link: 'i am shortened',
+    link: shortenedURL,
     parentFolder: request.body.parentFolder,
     bookmarkId: request.body.bookmarkId,
     requestType: request.body.requestType,
@@ -71,6 +70,7 @@ app.post('/bookmarks', (request, response) => {
       app.locals.folders[request.body.parentFolder].urls.push(alteredBookmark);
     } else {
       throw new Error('Invalid URL.')
+      //maybe replace this with text notification to user in app
     }
   }
 });
