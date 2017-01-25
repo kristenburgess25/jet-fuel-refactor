@@ -39,13 +39,8 @@ app.get('/', (request, response) => {
 });
 
 app.get('/bookmarks', (request, response) => {
-  // response.sendFile(path.join(__dirname, 'public/bookmarks.html'));
   response.send(app.locals.folders);
 });
-
-// app.get('/bookmarks', (request, response) => {
-//   response.sendFile(path.join(__dirname, 'public/bookmarks.html'));
-// });
 
 app.listen(app.get('port'), () => {
   console.log('The HTTP server is listening at Port 3000.');
