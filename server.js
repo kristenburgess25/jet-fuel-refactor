@@ -56,7 +56,9 @@ app.post('/bookmarks', (request, response) => {
   let origLink = request.body.link;
   let validation = /http(s?)+/;
   if (request.body.requestType === 'folder-update') {
-    //add data validation if no folder is specified
+    if (!request.body.folderTitle) {
+      throw new Error('You must specify a valid folder name.');
+    }
     app.locals.folders[request.body.folderTitle] = {
       folderTitle: request.body.folderTitle,
       folderId: request.body.folderId,
