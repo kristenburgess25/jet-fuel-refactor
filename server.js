@@ -12,13 +12,13 @@ app.locals.folders = {
     requestType: 'bookmark-update',
     urls: [
       {
-        link: 'http://www.espn.com/',
+        link: shortenURL('http://www.espn.com/'),
         parentFolder: 'sports',
         bookmarkId: 1,
         requestType: 'bookmark-update',
       },
       {
-        link: 'http://bleacherreport.com/',
+        link: shortenURL('http://bleacherreport.com/'),
         parentFolder: 'sports',
         bookmarkId: 23,
         requestType: 'bookmark-update',
@@ -54,12 +54,6 @@ app.listen(app.get('port'), () => {
 app.post('/bookmarks', (request, response) => {
   let origLink = request.body.link;
   let validation = /http(s?)+/;
-  let alteredBookmark = {
-    link: shortenURL(origLink),
-    parentFolder: request.body.parentFolder,
-    bookmarkId: request.body.bookmarkId,
-    requestType: request.body.requestType,
-  }
   if (request.body.requestType === 'folder-update') {
     app.locals.folders[request.body.folderTitle] = {
       folderTitle: request.body.folderTitle,
@@ -68,6 +62,12 @@ app.post('/bookmarks', (request, response) => {
       urls: [],
     };
   } else {
+    let alteredBookmark = {
+      link: shortenURL(origLink),
+      parentFolder: request.body.parentFolder,
+      bookmarkId: request.body.bookmarkId,
+      requestType: request.body.requestType,
+    }
     if (origLink.match(validation)) {
       if (!request.body.parentFolder) {
         throw new Error('You must specify a title for your bookmark.');
