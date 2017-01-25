@@ -35,25 +35,33 @@ const makeAPICall = () => {
 makeAPICall();
 //TODO look up IIFEs in ES6
 
-//create bookmarks
-$('#submit-button').on('click', () => {
+const saveURL = () => {
   axios.post('/bookmarks', {
     link: url.val(),
     parentFolder: folder.val(),
     bookmarkId: Math.floor(((Date.now()) / 1000000000) * Math.random()),
     requestType: 'bookmark-update',
   })
-})
+}
 
-//create folders
-$('#create-folder-button').on('click', () => {
+const saveFolder = () => {
   axios.post('/bookmarks', {
     folderTitle: newFolder.val(),
     folderId: Math.floor(((Date.now()) / 1000000000) * Math.random()),
     requestType: 'folder-update',
   })
+}
+
+//create bookmarks
+$('#submit-button').on('click', () => {
+  saveURL();
+  setTimeout(makeAPICall, 300);
+  makeAPICall();
 })
 
-$('#update-bookmarks-button').on('click', () => {
-  makeAPICall();
+//create folders
+$('#create-folder-button').on('click', () => {
+ saveFolder();
+ setTimeout(makeAPICall, 300);
+ makeAPICall();
 })
