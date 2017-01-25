@@ -42,6 +42,7 @@ const saveURL = () => {
     bookmarkId: Math.floor(((Date.now()) / 1000000000) * Math.random()),
     dateAddedRaw: Date.now(),
     dateAddedHumanReadable: new Date(),
+    clickCount: 0,
     requestType: 'bookmark-update',
   })
 }

@@ -18,6 +18,7 @@ app.locals.folders = {
         bookmarkId: 1,
         dateAddedRaw: Date.now(),
         dateAddedHumanReadable: new Date(),
+        clickCount: 0,
         requestType: 'bookmark-update',
       },
       {
@@ -27,6 +28,7 @@ app.locals.folders = {
         bookmarkId: 23,
         dateAddedRaw: Date.now(),
         dateAddedHumanReadable: new Date(),
+        clickCount: 0,
         requestType: 'bookmark-update',
       }
     ],
@@ -73,6 +75,7 @@ app.post('/bookmarks', (request, response) => {
       bookmarkId: request.body.bookmarkId,
       dateAddedRaw: request.body.dateAddedRaw,
       dateAddedHumanReadable: request.body.dateAddedHumanReadable,
+      clickCount: request.body.clickCount,
       requestType: request.body.requestType,
     }
     if (origLink.match(validation)) {
@@ -111,10 +114,6 @@ app.get('/bookmarks/:folder/:id', (request, response) => {
     }
   }
 
-  counter++;
-
-  console.log(counter);
-
   if (!target) {
     response.sendStatus(404);
   }
@@ -122,5 +121,32 @@ app.get('/bookmarks/:folder/:id', (request, response) => {
   response.json({
     target,
   });
+
+});
+
+app.put('/bookmarks/:folder/:id', (request, response) => {
+  const { folder } = request.params;
+  const { id } = request.params;
+
+  let bookmarks = app.locals.folders[folder].urls;
+  let targetIndex;
+
+  for (var i = 0; i < bookmarks.length; i++) {
+    if (bookmarks[i].bookmarkId === parseInt(id, 10)) {
+      targetIndex = bookmarks.indexOf(bookmarks[i]);
+    }
+  }
+
+  if (!targetIndex) {
+    response.sendStatus(404);
+  }
+
+  app.locals.folders[folder].urls[targetIndex].clickCount += 1;
+
+  console.log(app.locals.folders[folder].urls[targetIndex]);
+
+  // response.json({
+  //     clickCount: app.locals.folders[folder].urls[targetIndex].clickCount,
+  // });
 
 });
