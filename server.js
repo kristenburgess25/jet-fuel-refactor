@@ -60,13 +60,14 @@ app.post('/bookmarks', (request, response) => {
 
 app.get('/bookmarks/:folder', (request, response) => {
   const { folder } = request.params;
+  const returnedFolder = app.locals.folders[folder];
 
-  if (!app.locals.folders.folder) {
+  if (!app.locals.folders[folder]) {
     response.sendStatus(404);
   }
 
   response.json({
-    folder,
+    returnedFolder,
   });
 });
 
@@ -82,9 +83,12 @@ app.get('/bookmarks/:folder/:id', (request, response) => {
     }
   }
 
+  if (!target) {
+    response.sendStatus(404);
+  }
+
   response.json({
     target,
   });
-
 
 });
