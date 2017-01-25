@@ -11,17 +11,17 @@ const makeAPICall = () => {
     if (hitAPI.readyState === XMLHttpRequest.DONE) {
       if (hitAPI.status === 200) {
         document.querySelector('#bookmark-folder-input').innerHTML = '';
+
         let defaultOption = document.createElement('OPTION');
         let text = document.createTextNode('Folder Name for this Bookmark');
+
         defaultOption.appendChild(text);
         document.querySelector('#bookmark-folder-input').appendChild(defaultOption);
         for (let prop in JSON.parse(hitAPI.responseText)) {
-          // console.log(JSON.parse(hitAPI.responseText));
           let opt = document.createElement('OPTION');
           opt.value = prop;
           let text1 = document.createTextNode(prop);
           opt.appendChild(text1);
-          // console.log('text', text1);
           document.querySelector('#bookmark-folder-input').appendChild(opt);
         }
         console.log('The server response', JSON.parse(hitAPI.responseText));
@@ -32,7 +32,33 @@ const makeAPICall = () => {
   }
 }
 
+function fetchDisplay() {
+  var hitAPI = new XMLHttpRequest();
+  hitAPI.open('GET', '/bookmarks', true);
+  hitAPI.send();
+  hitAPI.onreadystatechange = function() {
+    if(hitAPI.readyState === XMLHttpRequest.DONE) {
+      if (hitAPI.status === 200) {
+        let response = JSON.parse(hitAPI.responseText)
+        let folderTitles = Object.keys(response);
+        // let urls = response[folderTitles].urls;
+        let folders = response[folderTitles]
+        console.log('folders', folders)
+        console.log('folderNames', folderTitles)
+        // console.log('urlArray', urls)
+        folderTitles.forEach((folder) => {
+          console.log('folder', folder)
+          $('#folders-list').append(`<li class='folder-li'>` + folder + `</li>`)
+        })
+      }
+    }
+  }
+}
+
+
+
 makeAPICall();
+fetchDisplay();
 //TODO look up IIFEs in ES6
 
 const saveURL = () => {
