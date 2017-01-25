@@ -18,15 +18,11 @@ const makeAPICall = () => {
         defaultOption.appendChild(text);
         document.querySelector('#bookmark-folder-input').appendChild(defaultOption);
         for (let prop in JSON.parse(hitAPI.responseText)) {
-          let longURL = JSON.parse(hitAPI.responseText).sports.urls
-          console.log('test', longURL);
           let opt = document.createElement('OPTION');
           opt.value = prop;
           let text1 = document.createTextNode(prop);
           opt.appendChild(text1);
           document.querySelector('#bookmark-folder-input').appendChild(opt);
-          document.querySelector('#folders-list').appendChild(opt);
-
         }
         console.log('The server response', JSON.parse(hitAPI.responseText));
       } else {
@@ -36,11 +32,27 @@ const makeAPICall = () => {
   }
 }
 
-// function displayFolders() {
-// document.querySelector('#main-folder-display').
-// }
+function displayFolders() {
+  var hitAPI = new XMLHttpRequest();
+  hitAPI.open('GET', '/bookmarks', true);
+  hitAPI.send();
+  hitAPI.onreadystatechange = function() {
+    if(hitAPI.readyState === XMLHttpRequest.DONE) {
+      if (hitAPI.status === 200) {
+        let response = JSON.parse(hitAPI.responseText)
+        let folderTitles = Object.keys(response);
+        let longURL = response.sports.urls;
+        console.log('folderNames', folderTitles)
+        console.log('urlArray', longURL)
+      }
+    }
+  }
+}
+
+
 
 makeAPICall();
+displayFolders();
 //TODO look up IIFEs in ES6
 
 const saveURL = () => {
