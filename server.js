@@ -46,6 +46,12 @@ app.listen(app.get('port'), () => {
 });
 
 app.post('/bookmarks', (request, response) => {
+  let alteredBookmark = {
+    link: 'i am shortened',
+    parentFolder: request.body.parentFolder,
+    bookmarkId: request.body.bookmarkId,
+    requestType: request.body.requestType,
+  }
   if (request.body.requestType === 'folder-update') {
     app.locals.folders[request.body.folderTitle] = {
       folderTitle: request.body.folderTitle,
@@ -54,7 +60,7 @@ app.post('/bookmarks', (request, response) => {
       urls: [],
     };
   } else {
-    app.locals.folders[request.body.parentFolder].urls.push(request.body);
+    app.locals.folders[request.body.parentFolder].urls.push(alteredBookmark);
   }
 });
 
