@@ -40,7 +40,7 @@ const shortenURL = (link) => {
       iteratee = generateRandomLetter();
       return iteratee;
     }
-  }).slice(1, 10).join('');
+  }).slice(1, 7).join('');
   return `http://${body}.io`
 }
 

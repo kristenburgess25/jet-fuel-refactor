@@ -5,8 +5,6 @@ const bodyParser = require('body-parser');
 const path = require('path');
 const shortenURL = require('./shorten-url');
 
-let counter = 0;
-
 app.locals.folders = {
   sports: {
     folderTitle: 'Sports',
@@ -14,19 +12,21 @@ app.locals.folders = {
     requestType: 'bookmark-update',
     urls: [
       {
-        link: shortenURL('http://www.espn.com/'),
+        longURL: 'http://www.espn.com/',
+        shortURL: shortenURL('http://www.espn.com/'),
         parentFolder: 'sports',
         bookmarkId: 1,
-        dateAddedRaw: 1485364742628,
-        dateAddedHumanReadable: '25 January 2017',
+        dateAddedRaw: Date.now(),
+        dateAddedHumanReadable: new Date(),
         requestType: 'bookmark-update',
       },
       {
-        link: shortenURL('http://bleacherreport.com/'),
+        longURL: 'http://bleacherreport.com/',
+        shortURL: shortenURL('http://bleacherreport.com/'),
         parentFolder: 'sports',
         bookmarkId: 23,
-        dateAddedRaw: 1485364780645,
-        dateAddedHumanReadable: '25 January 2017',
+        dateAddedRaw: Date.now(),
+        dateAddedHumanReadable: new Date(),
         requestType: 'bookmark-update',
       }
     ],
@@ -56,6 +56,7 @@ app.post('/bookmarks', (request, response) => {
   let origLink = request.body.link;
   let validation = /http(s?)+/;
   if (request.body.requestType === 'folder-update') {
+    //add data validation if no folder is specified
     app.locals.folders[request.body.folderTitle] = {
       folderTitle: request.body.folderTitle,
       folderId: request.body.folderId,
@@ -64,7 +65,8 @@ app.post('/bookmarks', (request, response) => {
     };
   } else {
     let alteredBookmark = {
-      link: shortenURL(origLink),
+      longURL: origLink,
+      shortURL: shortenURL(origLink),
       parentFolder: request.body.parentFolder,
       bookmarkId: request.body.bookmarkId,
       dateAddedRaw: request.body.dateAddedRaw,
