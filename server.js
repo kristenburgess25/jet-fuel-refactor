@@ -32,6 +32,33 @@ app.locals.folders = {
         requestType: 'bookmark-update',
       }
     ],
+  },
+  cats: {
+    folderTitle: 'Cats',
+    folderId: 1169,
+    requestType: 'bookmark-update',
+    urls: [
+      {
+        longURL: 'http://www.cats.com/',
+        shortURL: shortenURL('http://www.cats.com/'),
+        parentFolder: 'cats',
+        bookmarkId: 12,
+        dateAddedRaw: Date.now(),
+        dateAddedHumanReadable: new Date(),
+        clickCount: 0,
+        requestType: 'bookmark-update',
+      },
+      {
+        longURL: 'http://kittens.com/',
+        shortURL: shortenURL('http://kittens.com/'),
+        parentFolder: 'cats',
+        bookmarkId: 18,
+        dateAddedRaw: Date.now(),
+        dateAddedHumanReadable: new Date(),
+        clickCount: 0,
+        requestType: 'bookmark-update',
+      }
+    ],
   }
 };
 
