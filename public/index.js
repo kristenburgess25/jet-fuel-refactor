@@ -45,7 +45,15 @@ const fetchDisplay = () => {
           if (response.hasOwnProperty(key)) {
             let urls = response[key].urls;
               urls.map((link) => {
-                newArr.push(`<li id="${link.bookmarkId}" onClick="goToRealURL()">${link.shortURL}</li>`)
+                let longURL = link.longURL;
+                newArr.push(`
+                <div
+                id="${link.bookmarkId}"
+                >
+                <p onClick="goToRealURL('foo')">${link.shortURL}<p>
+                <p>${link.dateAddedHumanReadable}</p>
+                </div>
+                `)
               });
             $('#main-folder-display').append(`
               <div>
@@ -62,8 +70,10 @@ const fetchDisplay = () => {
   }
 }
 
-const goToRealURL = () => {
-  c
+const goToRealURL = (url) => {
+  console.log(url);
+  //post request to register click for the bookmark
+  //redirect to longURL
 }
 
 makeAPICall();
