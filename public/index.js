@@ -203,9 +203,8 @@ const saveURL = () => {
 }
 
 const saveFolder = () => {
-  axios.post('/bookmarks', {
+  axios.post('/api/folders', {
     folderTitle: newFolder.val(),
-    folderId: Math.floor(((Date.now()) / 1000000000) * Math.random()),
     requestType: 'folder-update',
   })
 }

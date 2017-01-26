@@ -91,6 +91,20 @@ app.listen(app.get('port'), () => {
   console.log('The HTTP server is listening at Port 3000.');
 });
 
+app.post('/api/folders', (request, response) => {
+  const { folderTitle, requestType } =  request.body;
+
+  const folder = {folderTitle, requestType}
+  database('folders').insert(folder).then((folders) => {
+    database('folders').select().then((folders) => {
+      response.status(200).json(folders);
+    }).catch((error) => {
+      console.error('Problem with database.')
+      response.status(500).send(`Error: ${error}`);
+    })
+  })
+})
+
 app.post('/bookmarks', (request, response) => {
   let origLink = request.body.link;
   let validation = /http(s?)+/;
