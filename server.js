@@ -1,9 +1,11 @@
-// const http = require("http");
 const express = require('express');
 const app = express();
 const bodyParser = require('body-parser');
 const path = require('path');
 const shortenURL = require('./shorten-url');
+const environment = process.env.NODE_ENV || 'development';
+const configuration = require('./knexfile')[environment];
+const database = require('knex')(configuration);
 
 app.locals.folders = {
   sports: {
@@ -73,8 +75,10 @@ app.get('/', (request, response) => {
   response.sendFile(path.join(__dirname, 'public/index.html'));
 });
 
-app.get('/bookmarks', (request, response) => {
-  response.send(app.locals.folders);
+app.get('/api/bookmarks', (request, response) => {
+  database('urls').select().then((data) => {
+    response.status(200).json(data)
+  }).catch(console.error('Problem with database.'));
 });
 
 app.listen(app.get('port'), () => {
