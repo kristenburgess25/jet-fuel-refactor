@@ -16,8 +16,8 @@ exports.up = function(knex, Promise) {
             table.integer('dateAddedRaw');
             table.integer('dateAddedHumanReadable');
             table.integer('clickCount');
-            table.string('requestType')
-            table.integer('bookmark_id')
+            table.string('requestType');
+            table.integer('folder_id')
                  .references('id')
                  .inTable('folders');
 
@@ -28,7 +28,7 @@ exports.up = function(knex, Promise) {
 
 exports.down = function(knex, Promise) {
     return Promise.all([
-        knex.schema.dropTable('owners'),
-        knex.schema.dropTable('secrets')
+        knex.schema.dropTable('folders'),
+        knex.schema.dropTable('urls')
     ])
 };

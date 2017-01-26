@@ -3,7 +3,7 @@ module.exports = {
 
   development: {
     client: 'pg',
-    connection: 'postgres://localhost/bookmarks',
+    connection: 'postgres://localhost/folders',
     migrations: {
       directory: './db/migrations'
     },
@@ -15,7 +15,7 @@ module.exports = {
 
   test: {
    client: 'pg',
-   connection:'postgres://localhost/bookmarks_test',
+   connection:'postgres://localhost/folders_test',
    migrations: {
      directory: './db/migrations'
    },
