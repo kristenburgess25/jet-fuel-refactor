@@ -32,7 +32,7 @@ const makeAPICall = () => {
   }
 }
 
-function fetchDisplay() {
+const fetchDisplay = () => {
   var hitAPI = new XMLHttpRequest();
   hitAPI.open('GET', '/bookmarks', true);
   hitAPI.send();
@@ -40,22 +40,41 @@ function fetchDisplay() {
     if(hitAPI.readyState === XMLHttpRequest.DONE) {
       if (hitAPI.status === 200) {
         let response = JSON.parse(hitAPI.responseText)
-        let folderTitles = Object.keys(response);
-        // let urls = response[folderTitles].urls;
-        let folders = response[folderTitles]
-        console.log('folders', folders)
-        console.log('folderNames', folderTitles)
-        // console.log('urlArray', urls)
-        folderTitles.forEach((folder) => {
-          console.log('folder', folder)
-          $('#folders-list').append(`<li class='folder-li'>` + folder + `</li>`)
-        })
+        for (var key in response) {
+          let newArr = [];
+          if (response.hasOwnProperty(key)) {
+            let urls = response[key].urls;
+              urls.map((link) => {
+                let longURL = link.longURL;
+                newArr.push(`
+                <div
+                id="${link.bookmarkId}"
+                >
+                <p onClick="goToRealURL('foo')">${link.shortURL}<p>
+                <p>${link.dateAddedHumanReadable}</p>
+                </div>
+                `)
+              });
+            $('#main-folder-display').append(`
+              <div>
+              <h3>${response[key].folderTitle}
+              <ul>
+              ${newArr}
+              </ul>
+              </div>
+            `);
+          }
+        }
       }
     }
   }
 }
 
-
+const goToRealURL = (url) => {
+  console.log(url);
+  //post request to register click for the bookmark
+  //redirect to longURL
+}
 
 makeAPICall();
 fetchDisplay();
