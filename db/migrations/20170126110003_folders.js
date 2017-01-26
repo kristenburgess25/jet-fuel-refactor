@@ -13,14 +13,15 @@ exports.up = function(knex, Promise) {
             table.string('longURL');
             table.string('shortURL');
             table.string('parentFolder');
-            table.integer('dateAddedRaw');
-            table.integer('dateAddedHumanReadable');
+            table.dateTime('dateAddedRaw');
+            table.dateTime('dateAddedHumanReadable');
             table.integer('clickCount');
             table.string('requestType');
             table.integer('folder_id')
                  .references('id')
-                 .inTable('folders');
-
+                 .inTable('folders')
+                 .onUpdate('CASCADE')
+                 .onDelete('CASCADE')
             table.timestamps();
         })
     ])

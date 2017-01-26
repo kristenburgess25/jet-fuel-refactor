@@ -1,4 +1,4 @@
-const shortenURL = require('./shorten-url');
+const shortenURL = require('../../../shorten-url');
 
 exports.seed = function(knex, Promise) {
   return knex('urls').del()
