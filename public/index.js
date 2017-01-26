@@ -73,10 +73,10 @@ const fetchDisplay = () => {
 }
 
 const goToRealURL = (url, folder, id) => {
+  var windowObjectReference;
   console.log(url, folder, id);
-  //put request to register click for the bookmark
-  axios.put(`/bookmarks/${folder}/${id}`, null)
-  //redirect to longURL
+  axios.put(`/bookmarks/${folder}/${id}`, null);
+  windowObjectReference = window.open(`${url}`)
 }
 
 makeAPICall();
