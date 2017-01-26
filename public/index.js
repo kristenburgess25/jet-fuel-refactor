@@ -125,6 +125,58 @@ const sortBookmarksByPopularity = (id) => {
   }
 }
 
+const sortBookmarksByDate = (id) => {
+  document.querySelector('#main-folder-display').innerHTML = '';
+  var hitAPI = new XMLHttpRequest();
+  hitAPI.open('GET', '/bookmarks', true);
+  hitAPI.send();
+  hitAPI.onreadystatechange = function() {
+    if(hitAPI.readyState === XMLHttpRequest.DONE) {
+      if (hitAPI.status === 200) {
+        let response = JSON.parse(hitAPI.responseText)
+        for (var key in response) {
+          let newArr = [];
+          if (response.hasOwnProperty(key)) {
+            let urls = response[key].urls;
+            let sortedURLs;
+            if (id === 'sort-date-ascending') {
+              sortedURLs = urls.sort((a, b) => {
+                return b.dateAddedRaw - a.dateAddedRaw;
+              });
+            } else {
+              sortedURLs = urls.sort((a, b) => {
+                return a.dateAddedRaw - b.dateAddedRaw;
+              });
+            }
+              sortedURLs.map((link) => {
+                let longURL = link.longURL;
+                let parentFolder = link.parentFolder;
+                let id = link.bookmarkId;
+                newArr.push(`
+                <div
+                id="${link.bookmarkId}"
+                >
+                <p onClick="goToRealURL('${longURL}', '${parentFolder}', '${id}')">${link.shortURL}<p>
+                <p>${link.dateAddedHumanReadable}</p>
+                <p>Number of visits for this URL: ${link.clickCount}</p>
+                </div>
+                `)
+              });
+            $('#main-folder-display').append(`
+              <div id="each-bookmark-container">
+              <h3>${response[key].folderTitle}
+              <ul>
+              ${newArr}
+              </ul>
+              </div>
+            `);
+          }
+        }
+      }
+    }
+  }
+}
+
 const goToRealURL = (url, folder, id) => {
   var windowObjectReference;
   console.log(url, folder, id);
@@ -172,6 +224,10 @@ $('#create-folder-button').on('click', () => {
  makeAPICall();
 })
 
-$('#sort-popularity-ascending, #sort-popularity-descending').on("click", () => {
+$('#sort-popularity-ascending, #sort-popularity-descending').on("click", (event) => {
   sortBookmarksByPopularity(event.target.id);
+});
+
+$('#sort-date-ascending, #sort-date-descending').on("click", (event) => {
+  sortBookmarksByDate(event.target.id);
 });
