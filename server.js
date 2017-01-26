@@ -75,7 +75,7 @@ app.get('/', (request, response) => {
   response.sendFile(path.join(__dirname, 'public/index.html'));
 });
 
-app.get('/bookmarks', (request, response) => {
+app.get('/api/bookmarks', (request, response) => {
   database('urls').select().then((data) => {
     response.status(200).json(data)
   }).catch(console.error('Problem with database.'));
