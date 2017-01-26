@@ -1,9 +1,11 @@
-// const http = require("http");
 const express = require('express');
 const app = express();
 const bodyParser = require('body-parser');
 const path = require('path');
 const shortenURL = require('./shorten-url');
+const environment = process.env.NODE_ENV || 'development';
+const configuration = require('./knexfile')[environment];
+const database = require('knex')(configuration);
 
 app.locals.folders = {
   sports: {
@@ -26,7 +28,7 @@ app.locals.folders = {
         shortURL: shortenURL('http://bleacherreport.com/'),
         parentFolder: 'sports',
         bookmarkId: 23,
-        dateAddedRaw: Date.now(),
+        dateAddedRaw: Date.now() + 1,
         dateAddedHumanReadable: new Date(),
         clickCount: 0,
         requestType: 'bookmark-update',
@@ -53,7 +55,7 @@ app.locals.folders = {
         shortURL: shortenURL('http://kittens.com/'),
         parentFolder: 'cats',
         bookmarkId: 18,
-        dateAddedRaw: Date.now(),
+        dateAddedRaw: Date.now() + 1,
         dateAddedHumanReadable: new Date(),
         clickCount: 0,
         requestType: 'bookmark-update',
@@ -73,8 +75,16 @@ app.get('/', (request, response) => {
   response.sendFile(path.join(__dirname, 'public/index.html'));
 });
 
-app.get('/bookmarks', (request, response) => {
-  response.send(app.locals.folders);
+app.get('/api/folders', (request, response) => {
+  database('folders').select().then((data) => {
+    response.status(200).json(data)
+  }).catch(console.error('Problem with database.'));
+});
+
+app.get('/api/folders/urls', (request, response) => {
+  database('urls').select().then((data) => {
+    response.status(200).json(data)
+  }).catch(console.error('Problem with database.'));
 });
 
 // app.get('/bookmarks', (request, response) => {
@@ -84,6 +94,20 @@ app.get('/bookmarks', (request, response) => {
 app.listen(app.get('port'), () => {
   console.log('The HTTP server is listening at Port 3000.');
 });
+
+app.post('/api/folders', (request, response) => {
+  const { folderTitle, requestType } =  request.body;
+
+  const folder = {folderTitle, requestType}
+  database('folders').insert(folder).then((folders) => {
+    database('folders').select().then((folders) => {
+      response.status(200).json(folders);
+    }).catch((error) => {
+      console.error('Problem with database.')
+      response.status(500).send(`Error: ${error}`);
+    })
+  })
+})
 
 app.post('/bookmarks', (request, response) => {
   let origLink = request.body.link;
@@ -165,16 +189,13 @@ app.put('/bookmarks/:folder/:id', (request, response) => {
   for (var i = 0; i < bookmarks.length; i++) {
     if (bookmarks[i].bookmarkId === parseInt(id, 10)) {
       targetIndex = bookmarks.indexOf(bookmarks[i]);
+      target = bookmarks[i];
     }
   }
 
   app.locals.folders[folder].urls[targetIndex].clickCount += 1;
 
-  console.log(app.locals.folders[folder].urls[targetIndex]);
-
-  // response.json({
-  //     clickCount: app.locals.folders[folder].urls[targetIndex].clickCount,
-  // });
+  console.log('The clicked on object whose click count should update', app.locals.folders[folder].urls[targetIndex]);
 });
 
 module.exports = app;

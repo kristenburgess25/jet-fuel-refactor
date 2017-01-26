@@ -11,12 +11,10 @@
   </head>
   <body>
     <h1> BOOKMARKER </h1>
-    <!-- <input type="text" placeholder="Bookmark Title" id="bookmark-title-input"/> -->
     <select id="bookmark-folder-input">
       <option value="" id="default-option-for-dropdown">Folder Name for this Bookmark</option>
     </select>
     <input type="text" placeholder="Bookmark URL" id="bookmark-url-input"/>
-    <!-- <input type="text" value="Folder Name for this Bookmark" id="bookmark-folder-input"/> -->
     <button
     type="submit"
     id="submit-button"
@@ -26,11 +24,34 @@
     <br></br>
     <input type="text" placeholder="New Folder Name" id="new-folder-input"/>
     <button id="create-folder-button">Create New Folder</button>
+    <br></br>
+    <button
+    type="submit"
+    id="sort-popularity-ascending"
+    >
+    Sort by Popularity (Ascending)
+    </button>
+    <button
+    type="submit"
+    id="sort-popularity-descending"
+    >
+    Sort by Popularity (Descending)
+    </button>
+    <button
+    type="submit"
+    id="sort-date-descending"
+    >
+    Sort by Date Added (Descending)
+    </button>
+    <button
+    type="submit"
+    id="sort-date-ascending"
+    >
+    Sort by Date Added (Ascending)
+  </button>
 
     <section id='main-folder-display'>
-      <ul id='folders-list'> Current Folders: </ul>
 
-      </ul>
     </section>
 
     <script src="index.js"></script>
