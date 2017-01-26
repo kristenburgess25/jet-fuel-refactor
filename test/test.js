@@ -18,11 +18,11 @@ describe('GET /', () => {
  });
 });
 
-describe('GET /bookmarks', () => {
+describe('GET /api/folders', () => {
 
   it('should return a 200 status code', (done) => {
     request(app)
-      .get('/bookmarks')
+      .get('/api/folders')
       .expect(200, done);
   });
   it('should return 404 for invalid path', (done) => {
@@ -39,10 +39,10 @@ describe('GET /bookmarks', () => {
 
 describe('GET /:folder', () => {
 
-  it('should return a 200 status code', (done) => {
+  it('should return a 200 status code when accessing a specific folder', (done) => {
   //figure out how to dynamically pass in folder
     request(app)
-      .get('/bookmarks/sports')
+      .get('/folders/sports')
       .expect(200, done);
   });
   it('should return 404 for invalid path', (done) => {
