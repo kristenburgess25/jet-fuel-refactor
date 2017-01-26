@@ -1,16 +1,16 @@
 exports.seed = function(knex, Promise) {
-  return knex('owners').del()
+  return knex('folders').del()
   .then(() => {
     return Promise.all([
-      knex('owners').insert({
-        id: 1,
-        name: 'Alex Tideman',
-        created_at: new Date
+      knex('folders').insert({
+        folderTitle: 'Sports',
+        id: 1167,
+        requestType: 'bookmark-update'
       }),
-      knex('owners').insert({
-        id: 2,
-        name: 'Bob Barker',
-        created_at: new Date
+      knex('folders').insert({
+        folderTitle: 'Cats',
+        id: 1169,
+        requestType: 'bookmark-update'
       })
     ]);
   });
