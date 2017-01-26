@@ -75,7 +75,13 @@ app.get('/', (request, response) => {
   response.sendFile(path.join(__dirname, 'public/index.html'));
 });
 
-app.get('/api/bookmarks', (request, response) => {
+app.get('/api/folders', (request, response) => {
+  database('folders').select().then((data) => {
+    response.status(200).json(data)
+  }).catch(console.error('Problem with database.'));
+});
+
+app.get('/api/folders/urls', (request, response) => {
   database('urls').select().then((data) => {
     response.status(200).json(data)
   }).catch(console.error('Problem with database.'));
@@ -84,6 +90,20 @@ app.get('/api/bookmarks', (request, response) => {
 app.listen(app.get('port'), () => {
   console.log('The HTTP server is listening at Port 3000.');
 });
+
+app.post('/api/folders', (request, response) => {
+  const { folderTitle, requestType } =  request.body;
+
+  const folder = {folderTitle, requestType}
+  database('folders').insert(folder).then((folders) => {
+    database('folders').select().then((folders) => {
+      response.status(200).json(folders);
+    }).catch((error) => {
+      console.error('Problem with database.')
+      response.status(500).send(`Error: ${error}`);
+    })
+  })
+})
 
 app.post('/bookmarks', (request, response) => {
   let origLink = request.body.link;
