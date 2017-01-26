@@ -88,7 +88,15 @@ app.get('/api/folders/:id', (request, response) => {
   }).catch((error) => {
     console.error('There was a problem with the API call.')
   });
+});
 
+app.get('/api/folders/:id/urls', (request, response) => {
+  const { id } = request.params;
+  database('urls').where('folder_id',  id).select().then((urls) => {
+    response.status(200).json(urls);
+  }).catch((error) => {
+    console.error('There was a problem with the API call.')
+  });
 });
 
 // app.get('/api/owners/:id', (request, response) => {
@@ -111,6 +119,7 @@ app.listen(app.get('port'), () => {
   console.log('The HTTP server is listening at Port 3000.');
 });
 
+//need to change path
 app.post('/api/folders', (request, response) => {
   const { folderTitle, requestType } =  request.body;
 
@@ -125,92 +134,92 @@ app.post('/api/folders', (request, response) => {
   })
 })
 
-app.post('/bookmarks', (request, response) => {
-  let origLink = request.body.link;
-  let validation = /http(s?)+/;
-  if (request.body.requestType === 'folder-update') {
-    if (!request.body.folderTitle) {
-      throw new Error('You must specify a valid folder name.');
-    }
-    app.locals.folders[request.body.folderTitle] = {
-      folderTitle: request.body.folderTitle,
-      folderId: request.body.folderId,
-      requestType: 'folder-update',
-      urls: [],
-    };
-  } else {
-    let alteredBookmark = {
-      longURL: origLink,
-      shortURL: shortenURL(origLink),
-      parentFolder: request.body.parentFolder,
-      bookmarkId: request.body.bookmarkId,
-      dateAddedRaw: request.body.dateAddedRaw,
-      dateAddedHumanReadable: request.body.dateAddedHumanReadable,
-      clickCount: request.body.clickCount,
-      requestType: request.body.requestType,
-    }
-    if (origLink.match(validation)) {
-      if (!request.body.parentFolder) {
-        throw new Error('You must specify a title for your bookmark.');
-      }
-      app.locals.folders[request.body.parentFolder].urls.push(alteredBookmark);
-    } else {
-      throw new Error('Invalid URL.')
-    }
-  }
-});
-
-app.get('/bookmarks/:folder', (request, response) => {
-  const { folder } = request.params;
-  const returnedFolder = app.locals.folders[folder];
-
-  if (!app.locals.folders[folder]) {
-    response.sendStatus(404);
-  }
-
-  response.json({
-    returnedFolder,
-  });
-});
-
-app.get('/bookmarks/:folder/:id', (request, response) => {
-  const { folder } = request.params;
-  const { id } = request.params;
-  let bookmarks = app.locals.folders[folder].urls;
-  let target;
-
-  for (var i = 0; i < bookmarks.length; i++) {
-    if (bookmarks[i].bookmarkId === parseInt(id, 10)) {
-      target = bookmarks[i];
-    }
-  }
-
-  if (!target) {
-    response.sendStatus(404);
-  }
-
-  response.json({
-    target,
-  });
-
-});
-
-app.put('/bookmarks/:folder/:id', (request, response) => {
-  const { folder } = request.params;
-  const { id } = request.params;
-
-  let bookmarks = app.locals.folders[folder].urls;
-  let targetIndex;
-
-  for (var i = 0; i < bookmarks.length; i++) {
-    if (bookmarks[i].bookmarkId === parseInt(id, 10)) {
-      targetIndex = bookmarks.indexOf(bookmarks[i]);
-      target = bookmarks[i];
-    }
-  }
-
-  app.locals.folders[folder].urls[targetIndex].clickCount += 1;
-
-  console.log('The clicked on object whose click count should update', app.locals.folders[folder].urls[targetIndex]);
-
-});
+// app.post('/bookmarks', (request, response) => {
+//   let origLink = request.body.link;
+//   let validation = /http(s?)+/;
+//   if (request.body.requestType === 'folder-update') {
+//     if (!request.body.folderTitle) {
+//       throw new Error('You must specify a valid folder name.');
+//     }
+//     app.locals.folders[request.body.folderTitle] = {
+//       folderTitle: request.body.folderTitle,
+//       folderId: request.body.folderId,
+//       requestType: 'folder-update',
+//       urls: [],
+//     };
+//   } else {
+//     let alteredBookmark = {
+//       longURL: origLink,
+//       shortURL: shortenURL(origLink),
+//       parentFolder: request.body.parentFolder,
+//       bookmarkId: request.body.bookmarkId,
+//       dateAddedRaw: request.body.dateAddedRaw,
+//       dateAddedHumanReadable: request.body.dateAddedHumanReadable,
+//       clickCount: request.body.clickCount,
+//       requestType: request.body.requestType,
+//     }
+//     if (origLink.match(validation)) {
+//       if (!request.body.parentFolder) {
+//         throw new Error('You must specify a title for your bookmark.');
+//       }
+//       app.locals.folders[request.body.parentFolder].urls.push(alteredBookmark);
+//     } else {
+//       throw new Error('Invalid URL.')
+//     }
+//   }
+// });
+//
+// app.get('/bookmarks/:folder', (request, response) => {
+//   const { folder } = request.params;
+//   const returnedFolder = app.locals.folders[folder];
+//
+//   if (!app.locals.folders[folder]) {
+//     response.sendStatus(404);
+//   }
+//
+//   response.json({
+//     returnedFolder,
+//   });
+// });
+//
+// app.get('/bookmarks/:folder/:id', (request, response) => {
+//   const { folder } = request.params;
+//   const { id } = request.params;
+//   let bookmarks = app.locals.folders[folder].urls;
+//   let target;
+//
+//   for (var i = 0; i < bookmarks.length; i++) {
+//     if (bookmarks[i].bookmarkId === parseInt(id, 10)) {
+//       target = bookmarks[i];
+//     }
+//   }
+//
+//   if (!target) {
+//     response.sendStatus(404);
+//   }
+//
+//   response.json({
+//     target,
+//   });
+//
+// });
+//
+// app.put('/bookmarks/:folder/:id', (request, response) => {
+//   const { folder } = request.params;
+//   const { id } = request.params;
+//
+//   let bookmarks = app.locals.folders[folder].urls;
+//   let targetIndex;
+//
+//   for (var i = 0; i < bookmarks.length; i++) {
+//     if (bookmarks[i].bookmarkId === parseInt(id, 10)) {
+//       targetIndex = bookmarks.indexOf(bookmarks[i]);
+//       target = bookmarks[i];
+//     }
+//   }
+//
+//   app.locals.folders[folder].urls[targetIndex].clickCount += 1;
+//
+//   console.log('The clicked on object whose click count should update', app.locals.folders[folder].urls[targetIndex]);
+//
+// });

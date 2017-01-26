@@ -47,7 +47,7 @@ const showOneFolder = (id) => {
     if (hitAPI.readyState === XMLHttpRequest.DONE) {
       if (hitAPI.status === 200) {
         let result = JSON.parse(hitAPI.responseText);
-        console.log('server response for showURLs', result);
+        console.log('server response for showOneFolder', result);
         $('#main-folder-display').append(`
           <div>
           <h2 onClick="showURLs('${result[0].id}')">${result[0].folderTitle}</h2>
@@ -60,9 +60,34 @@ const showOneFolder = (id) => {
   }
 }
 
-const showURLs = (id) => {
-  
+const showURLs = (folderId) => {
+  document.querySelector('#main-folder-display').innerHTML = '';
+  var hitAPI = new XMLHttpRequest();
+  hitAPI.open('GET', `/api/folders/${folderId}/urls`, true);
+  hitAPI.send();
+  hitAPI.onreadystatechange = function() {
+    if (hitAPI.readyState === XMLHttpRequest.DONE) {
+      if (hitAPI.status === 200) {
+        let result = JSON.parse(hitAPI.responseText);
+        console.log('server response for showURLs', result);
+        let urls = result.map((url) => {
+          $('#main-folder-display').append(`
+            <div>
+            <p onClick="goToRealURL('${url.longURL}', '${url.folder_id}', '${url.id}')">${url.shortURL}<p>
+            <p>${url.created_at}</p>
+            <p>Number of visits for this URL: ${url.clickCount}</p>
+            </div>
+            `);
+        })
+      } else {
+        console.error('There was a problem with the API call.');
+      }
+    }
+  }
 }
+
+
+
 
 const sortBookmarksByPopularity = (id) => {
   document.querySelector('#main-folder-display').innerHTML = '';
