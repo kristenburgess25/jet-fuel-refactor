@@ -20,6 +20,11 @@ describe('GET /bookmarks', () => {
       .get('/bookmarks')
       .expect(200, done);
   });
+  it('should return a set bookmarks stored in app.locals.folders', (done) => {
+  request(app)
+    .get('/bookmarks')
+    .expect(200, app.locals.folders, done);
+});
 });
 
 describe('GET /:folder', () => {
