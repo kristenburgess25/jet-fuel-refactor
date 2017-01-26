@@ -52,7 +52,7 @@ const fetchDisplay = () => {
                 <div
                 id="${link.bookmarkId}"
                 >
-                <p onClick="goToRealURL('${longURL}, ${parentFolder}, ${id}')">${link.shortURL}<p>
+                <p onClick="goToRealURL('${longURL}', '${parentFolder}', '${id}')">${link.shortURL}<p>
                 <p>${link.dateAddedHumanReadable}</p>
                 </div>
                 `)
@@ -73,10 +73,10 @@ const fetchDisplay = () => {
 }
 
 const goToRealURL = (url, folder, id) => {
+  var windowObjectReference;
   console.log(url, folder, id);
-  //put request to register click for the bookmark
-  axios.put("/bookmarks/sports/1", null)
-  //redirect to longURL
+  axios.put(`/bookmarks/${folder}/${id}`, null);
+  windowObjectReference = window.open(`${url}`)
 }
 
 makeAPICall();
