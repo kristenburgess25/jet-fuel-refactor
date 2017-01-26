@@ -11,6 +11,7 @@ exports.seed = function(knex, Promise) {
         id: 1,
         folder_id: 1167,
         clickCount: 0,
+        created_at: new Date,
         requestType: 'bookmark-update',
       }),
       knex('urls').insert({
@@ -20,6 +21,7 @@ exports.seed = function(knex, Promise) {
         id: 2,
         folder_id: 1167,
         clickCount: 0,
+        created_at: new Date,
         requestType: 'bookmark-update',
       }),
       knex('urls').insert({
@@ -29,6 +31,7 @@ exports.seed = function(knex, Promise) {
         id: 3,
         folder_id: 1169,
         clickCount: 0,
+        created_at: new Date,
         requestType: 'bookmark-update',
       }),
       knex('urls').insert({
@@ -38,6 +41,7 @@ exports.seed = function(knex, Promise) {
         id: 4,
         folder_id: 1169,
         clickCount: 0,
+        created_at: new Date,
         requestType: 'bookmark-update',
       })
     ]);

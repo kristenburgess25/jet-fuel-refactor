@@ -76,7 +76,7 @@ app.get('/', (request, response) => {
 });
 
 app.get('/bookmarks', (request, response) => {
-  database('folders').select().then((data) => {
+  database('urls').select().then((data) => {
     response.status(200).json(data)
   }).catch(console.error('Problem with database.'));
 });
