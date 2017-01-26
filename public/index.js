@@ -50,7 +50,7 @@ const showOneFolder = (id) => {
         console.log('server response for showURLs', result);
         $('#main-folder-display').append(`
           <div>
-          <h2>${result[0].folderTitle}</h2>
+          <h2 onClick="showURLs('${result[0].id}')">${result[0].folderTitle}</h2>
           </div>
           `);
       } else {
@@ -58,6 +58,10 @@ const showOneFolder = (id) => {
       }
     }
   }
+}
+
+const showURLs = (id) => {
+  
 }
 
 const sortBookmarksByPopularity = (id) => {

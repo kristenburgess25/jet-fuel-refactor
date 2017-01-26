@@ -83,8 +83,8 @@ app.get('/api/folders', (request, response) => {
 
 app.get('/api/folders/:id', (request, response) => {
   const { id } = request.params;
-  database('folders').where('id', id).select().then((folders) => {
-    response.status(200).json(folders);
+  database('folders').where('id', id).select().then((folder) => {
+    response.status(200).json(folder);
   }).catch((error) => {
     console.error('There was a problem with the API call.')
   });
