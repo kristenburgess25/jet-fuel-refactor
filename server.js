@@ -166,10 +166,6 @@ app.put('/bookmarks/:folder/:id', (request, response) => {
 
   app.locals.folders[folder].urls[targetIndex].clickCount += 1;
 
-  console.log(app.locals.folders[folder].urls[targetIndex]);
-
-  // response.json({
-  //     clickCount: app.locals.folders[folder].urls[targetIndex].clickCount,
-  // });
+  console.log('The clicked on object whose click count should update', app.locals.folders[folder].urls[targetIndex]);
 
 });
