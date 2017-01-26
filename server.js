@@ -4,7 +4,7 @@ const bodyParser = require('body-parser');
 const path = require('path');
 const shortenURL = require('./shorten-url');
 const environment = process.env.NODE_ENV || 'development';
-const configuration = require('../knexfile')[environment];
+const configuration = require('./knexfile')[environment];
 const database = require('knex')(configuration);
 
 app.locals.folders = {
@@ -76,7 +76,9 @@ app.get('/', (request, response) => {
 });
 
 app.get('/bookmarks', (request, response) => {
-  response.send(app.locals.folders);
+  database('folders').select().then((data) => {
+    response.status(200).json(data)
+  }).catch(console.error('Problem with database.'));
 });
 
 app.listen(app.get('port'), () => {
