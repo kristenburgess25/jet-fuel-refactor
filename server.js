@@ -26,7 +26,7 @@ app.locals.folders = {
         shortURL: shortenURL('http://bleacherreport.com/'),
         parentFolder: 'sports',
         bookmarkId: 23,
-        dateAddedRaw: Date.now(),
+        dateAddedRaw: Date.now() + 1,
         dateAddedHumanReadable: new Date(),
         clickCount: 0,
         requestType: 'bookmark-update',
@@ -53,7 +53,7 @@ app.locals.folders = {
         shortURL: shortenURL('http://kittens.com/'),
         parentFolder: 'cats',
         bookmarkId: 18,
-        dateAddedRaw: Date.now(),
+        dateAddedRaw: Date.now() + 1,
         dateAddedHumanReadable: new Date(),
         clickCount: 0,
         requestType: 'bookmark-update',
@@ -161,15 +161,12 @@ app.put('/bookmarks/:folder/:id', (request, response) => {
   for (var i = 0; i < bookmarks.length; i++) {
     if (bookmarks[i].bookmarkId === parseInt(id, 10)) {
       targetIndex = bookmarks.indexOf(bookmarks[i]);
+      target = bookmarks[i];
     }
   }
 
   app.locals.folders[folder].urls[targetIndex].clickCount += 1;
 
-  console.log(app.locals.folders[folder].urls[targetIndex]);
-
-  // response.json({
-  //     clickCount: app.locals.folders[folder].urls[targetIndex].clickCount,
-  // });
+  console.log('The clicked on object whose click count should update', app.locals.folders[folder].urls[targetIndex]);
 
 });
