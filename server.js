@@ -164,10 +164,6 @@ app.put('/bookmarks/:folder/:id', (request, response) => {
     }
   }
 
-  if (!targetIndex) {
-    response.sendStatus(404);
-  }
-
   app.locals.folders[folder].urls[targetIndex].clickCount += 1;
 
   console.log(app.locals.folders[folder].urls[targetIndex]);
