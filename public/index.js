@@ -73,7 +73,7 @@ const fetchDisplay = () => {
   }
 }
 
-const sortBookmarksByPopularity = () => {
+const sortBookmarksByPopularity = (id) => {
   document.querySelector('#main-folder-display').innerHTML = '';
   var hitAPI = new XMLHttpRequest();
   hitAPI.open('GET', '/bookmarks', true);
@@ -86,9 +86,16 @@ const sortBookmarksByPopularity = () => {
           let newArr = [];
           if (response.hasOwnProperty(key)) {
             let urls = response[key].urls;
-            let sortedURLs = urls.sort((a, b) => {
-              return a.clickCount - b.clickCount;
-            });
+            let sortedURLs;
+            if (id === 'sort-popularity-ascending') {
+              sortedURLs = urls.sort((a, b) => {
+                return b.clickCount - a.clickCount;
+              });
+            } else {
+              sortedURLs = urls.sort((a, b) => {
+                return a.clickCount - b.clickCount;
+              });
+            }
               sortedURLs.map((link) => {
                 let longURL = link.longURL;
                 let parentFolder = link.parentFolder;
@@ -165,6 +172,6 @@ $('#create-folder-button').on('click', () => {
  makeAPICall();
 })
 
-$('#sort-popularity').on("click", () => {
-  sortBookmarksByPopularity();
+$('#sort-popularity-ascending, #sort-popularity-descending').on("click", () => {
+  sortBookmarksByPopularity(event.target.id);
 });
