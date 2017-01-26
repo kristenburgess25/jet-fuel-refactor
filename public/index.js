@@ -54,7 +54,13 @@ const showFolders = () => {
           let text1 = document.createTextNode(result[i].folderTitle);
           opt.appendChild(text1);
           document.querySelector('#bookmark-folder-input').appendChild(opt);
+          $('#main-folder-display').append(`
+            <div>
+            <h3>${result[i].folderTitle}
+            </div>
+            `);
         }
+        //populate folder names on the page
         console.log('The server response', JSON.parse(hitAPI.responseText));
       } else {
         console.error('There was a problem with the API call.');
