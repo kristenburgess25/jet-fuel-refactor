@@ -40,8 +40,10 @@ const shortenURL = (link) => {
       iteratee = generateRandomLetter();
       return iteratee;
     }
-  }).slice(1, 17).join('');
-  return `http://${body}`
+
+  }).slice(1, 7).join('');
+  return `http://${body}.io`
+
 }
 
 const generateRandomLetter = () => {
