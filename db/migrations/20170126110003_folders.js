@@ -4,24 +4,19 @@ exports.up = function(knex, Promise) {
             table.increments('id').primary();
             table.string('folderTitle');
             table.string('requestType');
-
             table.timestamps();
         }),
 
         knex.schema.createTable('urls', function(table){
-            table.increments('id').primary();
+            table.string('id').primary();
             table.string('longURL');
             table.string('shortURL');
             table.string('parentFolder');
-            table.dateTime('dateAddedRaw');
-            table.dateTime('dateAddedHumanReadable');
             table.integer('clickCount');
             table.string('requestType');
             table.integer('folder_id')
                  .references('id')
                  .inTable('folders')
-                 .onUpdate('CASCADE')
-                 .onDelete('CASCADE')
             table.timestamps();
         })
     ])
