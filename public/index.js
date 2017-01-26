@@ -46,11 +46,14 @@ const fetchDisplay = () => {
             let urls = response[key].urls;
               urls.map((link) => {
                 let longURL = link.longURL;
+                let parentFolder = link.parentFolder;
+                let id = link.bookmarkId;
+                console.log(link);
                 newArr.push(`
                 <div
                 id="${link.bookmarkId}"
                 >
-                <p onClick="goToRealURL('${longURL}')">${link.shortURL}<p>
+                <p onClick="goToRealURL('${longURL}, ${parentFolder}, ${id}')">${link.shortURL}<p>
                 <p>${link.dateAddedHumanReadable}</p>
                 </div>
                 `)
@@ -70,9 +73,11 @@ const fetchDisplay = () => {
   }
 }
 
-const goToRealURL = (url) => {
-  console.log(url);
-  //post request to register click for the bookmark
+const goToRealURL = (url, folder, id) => {
+  // console.log(url, folder, id);
+
+  //put request to register click for the bookmark
+  axios.put("/bookmarks/sports/1", null)
   //redirect to longURL
 }
 
