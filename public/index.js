@@ -193,9 +193,9 @@ const sortBookmarksByDate = (id) => {
   }
 }
 
-const goToRealURL = (url, folder, id) => {
+const goToRealURL = (url, folderId, urlId) => {
   var windowObjectReference;
-  console.log(url, folder, id);
+  // console.log(url, folder, id);
   axios.put(`/bookmarks/${folder}/${id}`, null);
   setTimeout(() => {
     windowObjectReference = window.open(`${url}`)
@@ -233,8 +233,8 @@ $('#submit-button').on('click', () => {
 //create folders
 $('#create-folder-button').on('click', () => {
  saveFolder();
- setTimeout(makeAPICall, 300);
- makeAPICall();
+ setTimeout(showFolders(), 300);
+ // showFolders();
 })
 
 $('#sort-popularity-ascending, #sort-popularity-descending').on("click", (event) => {
