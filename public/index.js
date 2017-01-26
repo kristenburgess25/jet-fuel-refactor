@@ -74,7 +74,6 @@ const fetchDisplay = () => {
 }
 
 const goToRealURL = (url, folder, id) => {
-  //async problem here
   var windowObjectReference;
   console.log(url, folder, id);
   axios.put(`/bookmarks/${folder}/${id}`, null);
