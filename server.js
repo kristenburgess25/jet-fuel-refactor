@@ -7,62 +7,62 @@ const environment = process.env.NODE_ENV || 'development';
 const configuration = require('./knexfile')[environment];
 const database = require('knex')(configuration);
 
-app.locals.folders = {
-  sports: {
-    folderTitle: 'Sports',
-    folderId: 1167,
-    requestType: 'bookmark-update',
-    urls: [
-      {
-        longURL: 'http://www.espn.com/',
-        shortURL: shortenURL('http://www.espn.com/'),
-        parentFolder: 'sports',
-        bookmarkId: 1,
-        dateAddedRaw: Date.now(),
-        dateAddedHumanReadable: new Date(),
-        clickCount: 0,
-        requestType: 'bookmark-update',
-      },
-      {
-        longURL: 'http://bleacherreport.com/',
-        shortURL: shortenURL('http://bleacherreport.com/'),
-        parentFolder: 'sports',
-        bookmarkId: 23,
-        dateAddedRaw: Date.now() + 1,
-        dateAddedHumanReadable: new Date(),
-        clickCount: 0,
-        requestType: 'bookmark-update',
-      }
-    ],
-  },
-  cats: {
-    folderTitle: 'Cats',
-    folderId: 1169,
-    requestType: 'bookmark-update',
-    urls: [
-      {
-        longURL: 'http://www.cats.com/',
-        shortURL: shortenURL('http://www.cats.com/'),
-        parentFolder: 'cats',
-        bookmarkId: 12,
-        dateAddedRaw: Date.now(),
-        dateAddedHumanReadable: new Date(),
-        clickCount: 0,
-        requestType: 'bookmark-update',
-      },
-      {
-        longURL: 'http://kittens.com/',
-        shortURL: shortenURL('http://kittens.com/'),
-        parentFolder: 'cats',
-        bookmarkId: 18,
-        dateAddedRaw: Date.now() + 1,
-        dateAddedHumanReadable: new Date(),
-        clickCount: 0,
-        requestType: 'bookmark-update',
-      }
-    ],
-  }
-};
+// app.locals.folders = {
+//   sports: {
+//     folderTitle: 'Sports',
+//     folderId: 1167,
+//     requestType: 'bookmark-update',
+//     urls: [
+//       {
+//         longURL: 'http://www.espn.com/',
+//         shortURL: shortenURL('http://www.espn.com/'),
+//         parentFolder: 'sports',
+//         bookmarkId: 1,
+//         dateAddedRaw: Date.now(),
+//         dateAddedHumanReadable: new Date(),
+//         clickCount: 0,
+//         requestType: 'bookmark-update',
+//       },
+//       {
+//         longURL: 'http://bleacherreport.com/',
+//         shortURL: shortenURL('http://bleacherreport.com/'),
+//         parentFolder: 'sports',
+//         bookmarkId: 23,
+//         dateAddedRaw: Date.now() + 1,
+//         dateAddedHumanReadable: new Date(),
+//         clickCount: 0,
+//         requestType: 'bookmark-update',
+//       }
+//     ],
+//   },
+//   cats: {
+//     folderTitle: 'Cats',
+//     folderId: 1169,
+//     requestType: 'bookmark-update',
+//     urls: [
+//       {
+//         longURL: 'http://www.cats.com/',
+//         shortURL: shortenURL('http://www.cats.com/'),
+//         parentFolder: 'cats',
+//         bookmarkId: 12,
+//         dateAddedRaw: Date.now(),
+//         dateAddedHumanReadable: new Date(),
+//         clickCount: 0,
+//         requestType: 'bookmark-update',
+//       },
+//       {
+//         longURL: 'http://kittens.com/',
+//         shortURL: shortenURL('http://kittens.com/'),
+//         parentFolder: 'cats',
+//         bookmarkId: 18,
+//         dateAddedRaw: Date.now() + 1,
+//         dateAddedHumanReadable: new Date(),
+//         clickCount: 0,
+//         requestType: 'bookmark-update',
+//       }
+//     ],
+//   }
+// };
 
 app.locals.title = 'Jet Fuel Bookmarker';
 
@@ -79,6 +79,10 @@ app.get('/api/folders', (request, response) => {
   database('folders').select().then((data) => {
     response.status(200).json(data)
   }).catch(console.error('Problem with database.'));
+});
+
+app.get('/api/folders/:id', (request, response) => {
+  
 });
 
 app.get('/api/folders/urls', (request, response) => {
