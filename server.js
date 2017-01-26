@@ -83,7 +83,6 @@ app.get('/api/folders', (request, response) => {
 
 app.get('/api/folders/:id', (request, response) => {
   const { id } = request.params;
-  console.log(id);
   database('folders').where('id', id).select().then((folders) => {
     response.status(200).json(folders);
   }).catch((error) => {

@@ -50,7 +50,7 @@ const showOneFolder = (id) => {
         console.log('server response for showURLs', result);
         $('#main-folder-display').append(`
           <div>
-          <h2>Foo</h2>
+          <h2>${result[0].folderTitle}</h2>
           </div>
           `);
       } else {
