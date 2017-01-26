@@ -175,5 +175,6 @@ app.put('/bookmarks/:folder/:id', (request, response) => {
   // response.json({
   //     clickCount: app.locals.folders[folder].urls[targetIndex].clickCount,
   // });
-
 });
+
+module.exports = app;

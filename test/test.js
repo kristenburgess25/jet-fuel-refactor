@@ -2,7 +2,7 @@
 const assert = require('assert');
 const request = require('supertest');
 const express = require('express');
-const app = express();
+const app = require('../');
 
 describe('GET /', () => {
 
