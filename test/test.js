@@ -25,9 +25,19 @@ describe('GET /bookmarks', () => {
 describe('GET /:folder', () => {
 
   it('should return a 200 status code', (done) => {
-    const { folder } = 'sports'
+  //figure out how to dynamically pass in folder
     request(app)
-      .get('/bookmarks/:folder')
+      .get('/bookmarks/sports')
+      .expect(200, done);
+  });
+});
+
+describe('GET /:id', () => {
+
+  it('should return a 200 status code', (done) => {
+  //figure out how to dynamically pass in id
+    request(app)
+      .get('/bookmarks/sports/1')
       .expect(200, done);
   });
 });
