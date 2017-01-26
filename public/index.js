@@ -52,7 +52,7 @@ const fetchDisplay = () => {
                 <div
                 id="${link.bookmarkId}"
                 >
-                <p onClick="goToRealURL('${longURL}, ${parentFolder}, ${id}')">${link.shortURL}<p>
+                <p onClick="goToRealURL('${longURL}', '${parentFolder}', '${id}')">${link.shortURL}<p>
                 <p>${link.dateAddedHumanReadable}</p>
                 <p>Number of visits for this URL: ${link.clickCount}</p>
                 </div>
@@ -74,7 +74,10 @@ const fetchDisplay = () => {
 }
 
 const goToRealURL = (url, folder, id) => {
-  
+  var windowObjectReference;
+  console.log(url, folder, id);
+  axios.put(`/bookmarks/${folder}/${id}`, null);
+  windowObjectReference = window.open(`${url}`)
 }
 
 makeAPICall();
