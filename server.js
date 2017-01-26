@@ -82,8 +82,25 @@ app.get('/api/folders', (request, response) => {
 });
 
 app.get('/api/folders/:id', (request, response) => {
-  
+  const { id } = request.params;
+  console.log(id);
+  database('folders').where('id', id).select().then((folders) => {
+    response.status(200).json(folders);
+  }).catch((error) => {
+    console.error('There was a problem with the API call.')
+  });
+
 });
+
+// app.get('/api/owners/:id', (request, response) => {
+//   database('secrets').where('owner_id', request.params.id).select()
+//           .then(function(secrets) {
+//             response.status(200).json(secrets);
+//           })
+//           .catch(function(error) {
+//             console.error('somethings wrong with redirect')
+//           });
+// })
 
 app.get('/api/folders/urls', (request, response) => {
   database('urls').select().then((data) => {

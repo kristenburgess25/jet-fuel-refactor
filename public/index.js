@@ -26,11 +26,11 @@ const showFolders = () => {
           document.querySelector('#bookmark-folder-input').appendChild(opt);
           $('#main-folder-display').append(`
             <div>
-            <h3 onClick="showURLs('${result[i].id}')">${result[i].folderTitle}
+            <h3 onClick="showOneFolder('${result[i].id}')">${result[i].folderTitle}
             </div>
             `);
         }
-        console.log('The server response', JSON.parse(hitAPI.responseText));
+        console.log('The server response for showFolders', JSON.parse(hitAPI.responseText));
       } else {
         console.error('There was a problem with the API call.');
       }
@@ -38,8 +38,26 @@ const showFolders = () => {
   }
 }
 
-const showURLs = (id) => {
-  console.log(id);
+const showOneFolder = (id) => {
+  document.querySelector('#main-folder-display').innerHTML = '';
+  var hitAPI = new XMLHttpRequest();
+  hitAPI.open('GET', `/api/folders/${id}`, true);
+  hitAPI.send();
+  hitAPI.onreadystatechange = function() {
+    if (hitAPI.readyState === XMLHttpRequest.DONE) {
+      if (hitAPI.status === 200) {
+        let result = JSON.parse(hitAPI.responseText);
+        console.log('server response for showURLs', result);
+        $('#main-folder-display').append(`
+          <div>
+          <h2>Foo</h2>
+          </div>
+          `);
+      } else {
+        console.error('There was a problem with the API call.');
+      }
+    }
+  }
 }
 
 const sortBookmarksByPopularity = (id) => {
