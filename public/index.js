@@ -50,7 +50,7 @@ const fetchDisplay = () => {
                 <div
                 id="${link.bookmarkId}"
                 >
-                <p onClick="goToRealURL('foo')">${link.shortURL}<p>
+                <p onClick="goToRealURL('${longURL}')">${link.shortURL}<p>
                 <p>${link.dateAddedHumanReadable}</p>
                 </div>
                 `)
