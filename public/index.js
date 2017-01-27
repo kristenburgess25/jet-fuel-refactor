@@ -104,6 +104,7 @@ const showURLs = (folderTitle) => {
           console.log('url in map', url);
           $('#main-folder-display').append(`
             <div>
+            <h2> ${url.parentFolder} </h2>
             <p id="${url.id}"
             class="${url.parentFolder}
             clickable-link"
