@@ -187,11 +187,12 @@ const sortByPopularity = (direction, folderTitle) => {
           let longURL = url.longURL;
           let urlID = url.id;
           let folderName = url.parentFolder;
+          const createdAt = url.created_at.slice(0,10);
           $('#main-folder-display').append(`
             <div">
             <p class="short-url" onClick="goToRealURL('${longURL}', '${urlID}')">${url.shortURL}<p>
-            <p>${url.created_at}</p>
-            <p>Number of visits for this URL: ${url.clickCount}</p>
+            <p> Date added: ${createdAt}</p>
+            <p>Times visited: ${url.clickCount}</p>
             </div>
             `);
         })
@@ -229,10 +230,11 @@ const sortByDate = (direction, folderTitle) => {
         let urls = sortedURLs.map((url) => {
           let longURL = url.longURL;
           let urlID = url.id;
+          const createdAt = url.created_at.slice(0,10);
           $('#main-folder-display').append(`
             <div">
             <p class="short-url" onClick="goToRealURL('${longURL}', '${urlID}')">${url.shortURL}<p>
-            <p>${url.created_at}</p>
+            <p> Date added: ${createdAt}</p>
             <p>Number of visits for this URL: ${url.clickCount}</p>
             </div>
             `);
