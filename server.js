@@ -34,9 +34,7 @@ app.get('/api/folders/:folderTitle', (request, response) => {
 });
 
 app.get('/api/folders/:folderTitle/urls', (request, response) => {
-  console.log('it hit endpoint');
   const { folderTitle } = request.params;
-  console.log(folderTitle);
   database('urls').where('parentFolder',  folderTitle).select().then((urls) => {
     response.status(200).json(urls);
   }).catch((error) => {
@@ -44,24 +42,22 @@ app.get('/api/folders/:folderTitle/urls', (request, response) => {
   });
 });
 
-app.post('/api/folders/:id/urls', (request, response) => {
+app.post('/api/folders/:folderTitle/urls', (request, response) => {
+  const { longURL, parentFolder, folder_id, clickCount, requestType } = request.body;
+
+  const test = {
+    longURL,
+    shortURL: shortenURL(longURL),
+    parentFolder,
+    folder_id,
+    clickCount,
+    requestType,
+  }
+
+  database('urls').insert(test).then(() => { console.log('success')}).catch(console.log('failure'));
 
 });
 
-app.put('/api/folders/:folderId/urls/:urlid', (request, response) => {
-  const { folderId, urlid } = request.params;
-
-  database('urls').where('folder_id',  folderId).andWhere('id', id).insert({
-    longURL: 'http://www.foo.com/',
-    shortURL: shortenURL('http://www.foo.com/'),
-    parentFolder: 'sports',
-    folder_id: 1167,
-    clickCount: 300,
-    requestType: 'bookmark-update',
-  }).then(() => {
-    console.log('success');
-  }).catch(console.log('failure'));
-});
 
 app.post('/api/folders', (request, response) => {
   const { folderTitle, requestType } =  request.body;
@@ -77,6 +73,20 @@ app.post('/api/folders', (request, response) => {
   })
 })
 
+app.put('/api/folders/:folderId/urls/:urlid', (request, response) => {
+  const { folderId, urlid } = request.params;
+
+  database('urls').where('folder_id',  folderId).andWhere('id', id).insert({
+    longURL: 'http://www.foo.com/',
+    shortURL: shortenURL('http://www.foo.com/'),
+    parentFolder: 'sports',
+    folder_id: 1167,
+    clickCount: 300,
+    requestType: 'bookmark-update',
+  }).then(() => {
+    console.log('success');
+  }).catch(console.log('failure'));
+});
 
 // app.put('/api/secrets', (request, response) => {
 //   const { message, owner_id } = request.body

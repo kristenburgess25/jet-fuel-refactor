@@ -100,14 +100,12 @@ const goToRealURL = (url, parentFolder, urlid) => {
 showFolders();
 
 const saveURL = () => {
-
-  axios.post('/api/folders/${id}/urls', {
+  let folderTitle = $('#bookmark-folder-input').val();
+  axios.post('/api/folders/${folderTitle}/urls', {
     longURL: $('#bookmark-url-input').val(),
-    shortURL: shortenURL(longURL),
     parentFolder: $('#bookmark-folder-input').val(),
     folder_id: 1167,
     clickCount: 0,
-    created_at: new Date,
     requestType: 'bookmark-update',
   })
 }
