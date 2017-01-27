@@ -7,63 +7,6 @@ const environment = process.env.NODE_ENV || 'development';
 const configuration = require('./knexfile')[environment];
 const database = require('knex')(configuration);
 
-// app.locals.folders = {
-//   sports: {
-//     folderTitle: 'Sports',
-//     folderId: 1167,
-//     requestType: 'bookmark-update',
-//     urls: [
-//       {
-//         longURL: 'http://www.espn.com/',
-//         shortURL: shortenURL('http://www.espn.com/'),
-//         parentFolder: 'sports',
-//         bookmarkId: 1,
-//         dateAddedRaw: Date.now(),
-//         dateAddedHumanReadable: new Date(),
-//         clickCount: 0,
-//         requestType: 'bookmark-update',
-//       },
-//       {
-//         longURL: 'http://bleacherreport.com/',
-//         shortURL: shortenURL('http://bleacherreport.com/'),
-//         parentFolder: 'sports',
-//         bookmarkId: 23,
-//         dateAddedRaw: Date.now() + 1,
-//         dateAddedHumanReadable: new Date(),
-//         clickCount: 0,
-//         requestType: 'bookmark-update',
-//       }
-//     ],
-//   },
-//   cats: {
-//     folderTitle: 'Cats',
-//     folderId: 1169,
-//     requestType: 'bookmark-update',
-//     urls: [
-//       {
-//         longURL: 'http://www.cats.com/',
-//         shortURL: shortenURL('http://www.cats.com/'),
-//         parentFolder: 'cats',
-//         bookmarkId: 12,
-//         dateAddedRaw: Date.now(),
-//         dateAddedHumanReadable: new Date(),
-//         clickCount: 0,
-//         requestType: 'bookmark-update',
-//       },
-//       {
-//         longURL: 'http://kittens.com/',
-//         shortURL: shortenURL('http://kittens.com/'),
-//         parentFolder: 'cats',
-//         bookmarkId: 18,
-//         dateAddedRaw: Date.now() + 1,
-//         dateAddedHumanReadable: new Date(),
-//         clickCount: 0,
-//         requestType: 'bookmark-update',
-//       }
-//     ],
-//   }
-// };
-
 app.locals.title = 'Jet Fuel Bookmarker';
 
 app.use(express.static('public'));
@@ -99,6 +42,59 @@ app.get('/api/folders/:id/urls', (request, response) => {
   });
 });
 
+app.post('/api/folders/:id/urls', (request, response) => {
+
+});
+
+app.put('/api/folders/:id/urls/:urlid', (request, response) => {
+  const { id, urlid } = request.params;
+
+  database('urls').where('folder_id',  id).andWhere('id', id).insert({
+    longURL: 'http://www.foo.com/',
+    shortURL: shortenURL('http://www.foo.com/'),
+    parentFolder: 'sports',
+    folder_id: 1167,
+    clickCount: 300,
+    requestType: 'bookmark-update',
+  }).then(() => {
+    console.log('success');
+  }).catch(console.log('failure'));
+});
+
+app.post('/api/folders', (request, response) => {
+  const { folderTitle, requestType } =  request.body;
+
+  const folder = {folderTitle, requestType}
+  database('folders').insert(folder).then((folders) => {
+    database('folders').select().then((folders) => {
+      response.status(200).json(folders);
+    }).catch((error) => {
+      console.error('Problem with database.')
+      response.status(500).send(`Error: ${error}`);
+    })
+  })
+})
+
+
+// app.put('/api/secrets', (request, response) => {
+//   const { message, owner_id } = request.body
+//   const id = md5(message)
+//
+//   const secret = { id, message, owner_id, created_at: new Date };
+//   database('secrets').where({
+//     id: owner_id,
+//   }}).insert(secret)
+//   .then(function() {
+//     database('secrets').select()
+//             .then(function(secrets) {
+//               response.status(200).json(secrets);
+//             })
+//             .catch(function(error) {
+//               console.error('somethings wrong with db')
+//             });
+//   })
+// })
+
 // app.get('/api/owners/:id', (request, response) => {
 //   database('secrets').where('owner_id', request.params.id).select()
 //           .then(function(secrets) {
@@ -119,20 +115,6 @@ app.listen(app.get('port'), () => {
   console.log('The HTTP server is listening at Port 3000.');
 });
 
-//need to change path
-app.post('/api/folders', (request, response) => {
-  const { folderTitle, requestType } =  request.body;
-
-  const folder = {folderTitle, requestType}
-  database('folders').insert(folder).then((folders) => {
-    database('folders').select().then((folders) => {
-      response.status(200).json(folders);
-    }).catch((error) => {
-      console.error('Problem with database.')
-      response.status(500).send(`Error: ${error}`);
-    })
-  })
-})
 
 // app.post('/bookmarks', (request, response) => {
 //   let origLink = request.body.link;

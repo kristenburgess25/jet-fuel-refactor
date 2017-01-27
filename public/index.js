@@ -4,6 +4,7 @@ let folder = $('#bookmark-folder-input');
 let newFolder = $('#new-folder-input');
 
 const showFolders = () => {
+  document.querySelector('#main-folder-display').innerHTML = '';
   var hitAPI = new XMLHttpRequest();
   hitAPI.open('GET', '/api/folders', true);
   hitAPI.send();
@@ -86,6 +87,15 @@ const showURLs = (folderId) => {
   }
 }
 
+//need to comment back in the windowObjectReference stuff later
+const goToRealURL = (url, folderId, urlid) => {
+  // var windowObjectReference;
+  console.log(`/api/folders/${folderId}/urls/${urlid}`);
+  axios.put(`http://localhost:3000/api/folders/${folderId}/urls/${urlid}`, null);
+  // setTimeout(() => {
+  //   windowObjectReference = window.open(`${url}`)
+  // }, 2000);
+}
 
 
 
@@ -193,25 +203,18 @@ const sortBookmarksByDate = (id) => {
   }
 }
 
-const goToRealURL = (url, folderId, urlId) => {
-  var windowObjectReference;
-  // console.log(url, folder, id);
-  axios.put(`/bookmarks/${folder}/${id}`, null);
-  setTimeout(() => {
-    windowObjectReference = window.open(`${url}`)
-  }, 2000);
-}
 
 showFolders();
 
 const saveURL = () => {
-  axios.post('/bookmarks', {
-    link: url.val(),
-    parentFolder: folder.val(),
-    bookmarkId: Math.floor(((Date.now()) / 1000000000) * Math.random()),
-    dateAddedRaw: Date.now(),
-    dateAddedHumanReadable: new Date(),
+  
+  axios.post('/api/folders/${id}/urls', {
+    longURL: $('#bookmark-url-input').val(),
+    shortURL: shortenURL(longURL),
+    parentFolder: $('#bookmark-folder-input').val(),
+    folder_id: 1167,
     clickCount: 0,
+    created_at: new Date,
     requestType: 'bookmark-update',
   })
 }
@@ -226,15 +229,16 @@ const saveFolder = () => {
 //create bookmarks
 $('#submit-button').on('click', () => {
   saveURL();
-  setTimeout(makeAPICall, 300);
-  makeAPICall();
+
+
+  // showFolders() in setTimeout like below
 })
 
 //create folders
 $('#create-folder-button').on('click', () => {
  saveFolder();
- setTimeout(showFolders(), 300);
- // showFolders();
+ setTimeout(showFolders, 300);
+ showFolders();
 })
 
 $('#sort-popularity-ascending, #sort-popularity-descending').on("click", (event) => {
