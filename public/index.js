@@ -104,7 +104,16 @@ const showURLs = (folderTitle) => {
           console.log('url in map', url);
           $('#main-folder-display').append(`
             <div>
-            <p onClick="goToRealURL('${url.longURL}', '${url.parentFolder}', '${url.id}')">${url.shortURL}<p>
+            <p onClick="goToRealURL(
+              '${url.clickCount}',
+              '${url.folder_id}',
+              '${url.id}',
+              '${url.longURL}',
+              '${url.parentFolder}',
+              '${url.rawDate}',
+              '${url.requestType}',
+              '${url.shortURL}',
+            )">${url.shortURL}<p>
             <p>Number of visits for this URL: ${url.clickCount}</p>
             </div>
             `);
@@ -116,14 +125,21 @@ const showURLs = (folderTitle) => {
   }
 }
 
-const goToRealURL = (url, parentFolder, id) => {
-  // var windowObjectReference;
+const goToRealURL = (clickCount, folder_id, id, longURL, parentFolder, rawDate, requestType, shortURL) => {
+  var windowObjectReference;
   axios.put(`/api/folders/${parentFolder}/urls/${id}`, {
+    clickCount,
+    folder_id,
+    id,
+    longURL,
     parentFolder,
+    rawDate,
+    requestType,
+    shortURL,
   });
-  // setTimeout(() => {
-  //   windowObjectReference = window.open(`${url}`)
-  // }, 2000);
+  setTimeout(() => {
+    windowObjectReference = window.open(`${longURL}`)
+  }, 2000);
 }
 
 showFolders();
