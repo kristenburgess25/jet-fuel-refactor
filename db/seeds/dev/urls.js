@@ -22,7 +22,7 @@ exports.seed = function(knex, Promise) {
         folder_id: 1167,
         clickCount: 2,
         created_at: new Date,
-        requestType: 'bookmark-update',
+        requestType: 'bookmark-update', 
       }),
       knex('urls').insert({
         longURL: 'http://www.cats.com/',

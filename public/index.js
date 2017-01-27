@@ -52,6 +52,7 @@ const showOneFolder = (folderTitle) => {
         $('#main-folder-display').append(`
           <div>
           <h2 onClick="showURLs('${result[0].folderTitle}')">${result[0].folderTitle}</h2>
+
           <button
           id="sort-popularity-ascending"
           onClick="sortByPopularity('ascending', '${result[0].folderTitle}')"
@@ -65,6 +66,21 @@ const showOneFolder = (folderTitle) => {
           >
           Sort URLs By Popularity (Descending)
           </button>
+
+          <button
+          id="sort-date-ascending"
+          onClick="sortByDate('ascending', '${result[0].folderTitle}')"
+          >
+          Sort URLs By Date (Ascending)
+          </button>
+
+          <button
+          id="sort-date-descending"
+          onClick="sortByDate('descending', '${result[0].folderTitle}')"
+          >
+          Sort URLs By Date (Descending)
+          </button>
+
           </div>
           `);
       } else {
@@ -140,7 +156,6 @@ const sortByPopularity = (direction, folderTitle) => {
       if (hitAPI.status === 200) {
         let result = JSON.parse(hitAPI.responseText);
         let sortedURLs;
-        // console.log('start', result)
         if (direction === 'ascending') {
           sortedURLs = result.sort((a, b) => {
             return a.clickCount - b.clickCount
@@ -148,6 +163,33 @@ const sortByPopularity = (direction, folderTitle) => {
         } else if (direction === 'descending') {
           sortedURLs = result.sort((a, b) => {
             return b.clickCount - a.clickCount
+          });
+        }
+        console.log('sorted', sortedURLs);
+      } else {
+        console.error('There was a problem with the API call.');
+      }
+    }
+  }
+}
+
+const sortByDate = (direction, folderTitle) => {
+  document.querySelector('#main-folder-display').innerHTML = '';
+  var hitAPI = new XMLHttpRequest();
+  hitAPI.open('GET', `/api/folders/${folderTitle}/urls`, true);
+  hitAPI.send();
+  hitAPI.onreadystatechange = function() {
+    if (hitAPI.readyState === XMLHttpRequest.DONE) {
+      if (hitAPI.status === 200) {
+        let result = JSON.parse(hitAPI.responseText);
+        let sortedURLs;
+        if (direction === 'ascending') {
+          sortedURLs = result.sort((a, b) => {
+            return parseInt(a.created_at, 10) - parseInt(b.created_at, 10)
+          });
+        } else if (direction === 'descending') {
+          sortedURLs = result.sort((a, b) => {
+            return parseInt(b.created_at, 10) - parseInt(a.created_at, 10)
           });
         }
         console.log('sorted', sortedURLs);
