@@ -43,8 +43,23 @@ app.get('/api/folders/:folderTitle/urls', (request, response) => {
 });
 
 app.get('/api/folders/:folderTitle/urls/:urlid', (request, response) => {
+  console.log("test");
   const { folderTitle, urlid } = request.params;
-  database('urls').where('parentFolder',  folderTitle).andWhere('id', urlid).select().then((url) => {
+
+  // database('urls').where('id', urlid).select().then((url) => {
+  //   database('urls').where('id', urlid).update({
+  //     clickCount: 30,
+  //   }).then(() => {
+  //     console.log(url);
+  //   }).catch(console.log('there was an error.'));
+  // })
+//
+//
+//
+//
+  database('urls').where('parentFolder',  folderTitle).andWhere('id', urlid).update({
+    clickCount: 32,
+  }).select().then((url) => {
     response.status(200).json(url);
   }).catch((error) => {
     console.error('There was a problem with the API call.')
@@ -84,20 +99,19 @@ app.post('/api/folders', (request, response) => {
   })
 })
 
-app.put('/api/folders/:folderId/urls/:urlid', (request, response) => {
-  console.log(request.body.parentFolder);
-  const { folderId, urlid } = request.params;
-  database('urls').where('folder_id',  folderId).andWhere('id', urlid).insert({
-    longURL: 'http://www.foo.com/',
-    shortURL: shortenURL('http://www.foo.com/'),
-    parentFolder: 'Sports',
-    folder_id: 1167,
-    clickCount: 300,
-    requestType: 'bookmark-update',
-  }).then(() => {
-    console.log('success');
-  }).catch(console.log('failure'));
-});
+// app.patch('/api/folders/:folderId/urls/:urlid', (request, response) => {
+//   console.log("test");
+//   // const { clickCount, folder_id, id, longURL, parentFolder, rawDate, requestType, shortURL } = request.body;
+//   //
+//   const { clickCount } = request.body;
+//
+//   const { folderId, urlid } = request.params;
+//   database('urls').where('folder_id',  folderId).andWhere('id', urlid).insert({
+//     clickCount,
+//   }).then(() => {
+//     console.log('success');
+//   }).catch(() => { console.log('failure') });
+// });
 
 app.get('/api/folders/urls', (request, response) => {
   database('urls').select().then((data) => {
