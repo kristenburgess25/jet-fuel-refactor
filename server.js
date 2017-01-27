@@ -36,7 +36,7 @@ app.get('/api/folders/:folderTitle', (request, response) => {
 app.get('/api/folders/:folderTitle/urls', (request, response) => {
   console.log('it hit endpoint');
   const { folderTitle } = request.params;
-  // console.log(folderTitle);
+  console.log(folderTitle);
   database('urls').where('parentFolder',  folderTitle).select().then((urls) => {
     response.status(200).json(urls);
   }).catch((error) => {
