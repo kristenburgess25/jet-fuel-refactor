@@ -1,0 +1,25 @@
+body {
+  background-color: black;
+  margin: auto;
+  text-align: center;
+  font-family: 'Patua One', cursive;
+  display: block;
+  color: white;
+}
+input{
+  margin: 10px auto;
+  text-align: center;
+  border-radius: 5px;
+}
+
+button {
+  border-radius: 5px;
+}
+
+h1 {
+  color: teal;
+}
+
+/*h3 {
+  color: white;
+}*/
