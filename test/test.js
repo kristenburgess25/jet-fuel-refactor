@@ -36,10 +36,14 @@ describe('GET /api/folders', () => {
      .get('/foo/bar')
      .expect(404, done);
  });
-  it.skip('should return a set bookmarks stored in app.locals', (done) => {
+  it('should return an array of folders', (done) => {
   request(app)
-    .get('/bookmarks')
-    .expect(200, app.locals.folders, done);
+    .get('/api/folders')
+    .end(function(err, res) {
+    res.should.be.json;
+    res.body.should.be.a('array');
+    done();
+    });
 });
 });
 
