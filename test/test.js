@@ -4,6 +4,12 @@ const request = require('supertest');
 const express = require('express');
 const app = require('../');
 
+const chai = require('chai');
+const should = chai.should();
+const chaiHttp = require('chai-http');
+chai.use(chaiHttp);
+
+
 describe('GET /', () => {
 
   it('should return a 200 status code', (done) => {
@@ -37,33 +43,26 @@ describe('GET /api/folders', () => {
 });
 });
 
-describe('GET /:folder', () => {
+describe('GET /api/folders/:folder', () => {
 
   it('should return a 200 status code when accessing a specific folder', (done) => {
   //figure out how to dynamically pass in folder
     request(app)
-      .get('/folders/sports')
+      .get('/api/folders/1167')
       .expect(200, done);
   });
-  it('should return 404 for invalid path', (done) => {
+
+  it('should return 400 for bad request', (done) => {
     //write test for folder titles having to be strings?
    request(app)
-     .get('/bookmarks/1234')
-     .expect(404, done);
+     .get('/api/folders/@%8')
+     .expect(400, done);
  });
-  it.skip('should return a specified folder stored in app.locals.folders', (done) => {
-  request(app)
-    .get('/bookmarks/sports')
-    .expect(200, app.locals.folders.sports, done);
-});
 });
 
 describe('GET /:id', () => {
 
   it('should return a 200 status code', (done) => {
-  //figure out how to dynamically pass in id
-  //write tests for id type always being integer?
-  //what -will- the id type be in final product?
     request(app)
       .get('/bookmarks/sports/1')
       .expect(200, done);
