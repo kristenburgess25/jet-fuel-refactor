@@ -43,6 +43,7 @@ app.get('/api/folders/:folderTitle/urls', (request, response) => {
 });
 
 app.get('/api/folders/:folderTitle/urls/:urlid', (request, response) => {
+  // console.log("test");
   const { folderTitle, urlid } = request.params;
   database('urls').where('parentFolder',  folderTitle).andWhere('id', urlid).update({
     clickCount: 24,
