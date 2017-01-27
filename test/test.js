@@ -87,46 +87,46 @@ describe('GET /api/folders/:folderTitle/:urlid', () => {
   });
 
   it('should return 404 for invalid path', (done) => {
-    //is returning 200???
    request(app)
      .get('/api/folders/Cats/urls//')
      .expect(404, done);
  });
 });
 
+describe('POST /api/folders', function() {
+  it('should add a new folder', function(done) {
+    const folder = {id: 1167, folderTitle: "Sports",}
+    request(app)
+    .post('/api/folders')
+    .send(folder)
+    .end(function(err, res) {
+    res.should.have.status(200);
+    res.should.be.json;
+    res.body.should.be.a('array');
+    done();
+    });
+  });
+});
 
-
-// describe('GET /:id', () => {
-//
-//   it('should return a 200 status code', (done) => {
-//     request(app)
-//       .get('/bookmarks/sports/1')
-//       .expect(200, done);
-//   });
-//   it('should return 404 for invalid path', (done) => {
-//    request(app)
-//      .get('/bookmarks/sports/abc')
-//      .expect(404, done);
-//  });
-// });
-
-// describe('POST /bookmarks', () => {
-//
-//
-//   it('should create a new bookmark folder', (done) => {
-//     const newBookmark = {
-//       folderTitle: 'Horses',
-//       folderId: 25,
-//       requestType: 'folder-update',
-//       urls: [],
-//     };
-//     request(app)
-//       .post('/bookmarks')
-//       .send(newBookmark)
-//       .expect(200)
-//       .end(() => {
-//         assert.equal(app.locals.folders.length, 3);
-//         done();
-//       });
-//   });
-// });
+describe('POST /api/folders/:folderTitle/urls', function() {
+  //Unhandled rejection error: column "rawDate" of relation "urls" does not exist
+  it.skip('should add a new url', function(done) {
+    const url = {
+      longURL: 'http://www.google.com',
+      shortURL: '',
+      parentFolder: '',
+      folder_id: 1,
+      clickCount: 0,
+      requestType: ''
+    }
+    request(app)
+    .post('/api/folders/Cats/urls')
+    .send(url)
+    .end(function(err, res) {
+    res.should.have.status(200);
+    res.should.be.json;
+    res.body.should.be.a('array');
+    done();
+    });
+  });
+});
