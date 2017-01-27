@@ -117,9 +117,10 @@ const showURLs = (folderTitle) => {
 }
 
 const goToRealURL = (url, parentFolder, id) => {
-  console.log(url, parentFolder, id);
   // var windowObjectReference;
-  axios.put(`/api/folders/${parentFolder}/urls/${id}`, url);
+  axios.put(`/api/folders/${parentFolder}/urls/${id}`, {
+    parentFolder,
+  });
   // setTimeout(() => {
   //   windowObjectReference = window.open(`${url}`)
   // }, 2000);
