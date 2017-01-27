@@ -44,7 +44,9 @@ app.get('/api/folders/:folderTitle/urls', (request, response) => {
 
 app.get('/api/folders/:folderTitle/urls/:urlid', (request, response) => {
   const { folderTitle, urlid } = request.params;
-  database('urls').where('parentFolder',  folderTitle).andWhere('id', urlid).select().then((url) => {
+  database('urls').where('parentFolder',  folderTitle).andWhere('id', urlid).update({
+    clickCount: 24,
+  }).select().then((url) => {
     response.status(200).json(url);
   }).catch((error) => {
     console.error('There was a problem with the API call.')
@@ -84,25 +86,19 @@ app.post('/api/folders', (request, response) => {
   })
 })
 
-app.put('/api/folders/:folderId/urls/:urlid', (request, response) => {
-
-  const { clickCount, folder_id, id, longURL, parentFolder, rawDate, requestType, shortURL } = request.body;
-
-  let count = clickCount + 1;
-
-  const { folderId, urlid } = request.params;
-  database('urls').where('folder_id',  folderId).andWhere('id', urlid).insert({
-    clickCount: count,
-    folder_id,
-    longURL,
-    parentFolder,
-    rawDate,
-    requestType,
-    shortURL,
-  }).then(() => {
-    console.log('success');
-  }).catch(() => { console.log('failure') });
-});
+// app.patch('/api/folders/:folderId/urls/:urlid', (request, response) => {
+//
+//   // const { clickCount, folder_id, id, longURL, parentFolder, rawDate, requestType, shortURL } = request.body;
+//   //
+//   // let count = clickCount + 1;
+//   //
+//   // const { folderId, urlid } = request.params;
+//   // database('urls').where('folder_id',  folderId).andWhere('id', urlid).insert({
+//   //   clickCount: count,
+//   // }).then(() => {
+//   //   console.log('success');
+//   // }).catch(() => { console.log('failure') });
+// });
 
 app.get('/api/folders/urls', (request, response) => {
   database('urls').select().then((data) => {

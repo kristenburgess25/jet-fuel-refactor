@@ -125,21 +125,12 @@ const showURLs = (folderTitle) => {
   }
 }
 
-const goToRealURL = (clickCount, folder_id, id, longURL, parentFolder, rawDate, requestType, shortURL) => {
-  var windowObjectReference;
-  axios.put(`/api/folders/${parentFolder}/urls/${id}`, {
-    clickCount,
-    folder_id,
-    id,
-    longURL,
-    parentFolder,
-    rawDate,
-    requestType,
-    shortURL,
-  });
-  setTimeout(() => {
-    windowObjectReference = window.open(`${longURL}`)
-  }, 2000);
+const goToRealURL = (parentFolder, id, longURL) => {
+  // var windowObjectReference;
+  axios.get(`/api/folders/${parentFolder}/urls/${id}`);
+  // setTimeout(() => {
+  //   windowObjectReference = window.open(`${longURL}`)
+  // }, 2000);
 }
 
 showFolders();
