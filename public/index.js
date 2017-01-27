@@ -105,7 +105,13 @@ const showURLs = (folderTitle) => {
           console.log('url in map', url);
           $('#main-folder-display').append(`
             <div>
-            <p onClick="goToRealURL('${url.longURL}', '${url.parentFolder}', '${url.id}')">${url.shortURL}<p>
+            <h2> ${url.parentFolder} </h2>
+            <p id="${url.id}"
+            class="${url.parentFolder}
+            clickable-link"
+            >
+            ${url.shortURL}
+            <p>
             <p>Number of visits for this URL: ${url.clickCount}</p>
             </div>
             `);
@@ -117,15 +123,11 @@ const showURLs = (folderTitle) => {
   }
 }
 
-const goToRealURL = (url, parentFolder, id) => {
-  // var windowObjectReference;
-  axios.put(`/api/folders/${parentFolder}/urls/${id}`, {
-    parentFolder,
-  });
-  // setTimeout(() => {
-  //   windowObjectReference = window.open(`${url}`)
-  // }, 2000);
-}
+$(document).on('click', '.clickable-link', (e) => {
+  let folderTitle = e.target.className.split(' ')[0];
+  let id = e.target.id;
+  axios.get(`/api/folders/${folderTitle}/urls/${id}`)
+})
 
 showFolders();
 
@@ -168,9 +170,11 @@ const sortByPopularity = (direction, folderTitle) => {
         }
         let urls = sortedURLs.map((url) => {
           console.log('url in map', url);
+          let longURL = url.longURL;
+          let urlID = url.id;
           $('#main-folder-display').append(`
             <div">
-            <p onClick="goToRealURL(${url})">${url.shortURL}<p>
+            <p class="short-url" class="short-url" onClick="goToRealURL('${longURL}', '${urlID}')">${url.shortURL}<p>
             <p>${url.created_at}</p>
             <p>Number of visits for this URL: ${url.clickCount}</p>
             </div>
@@ -204,9 +208,11 @@ const sortByDate = (direction, folderTitle) => {
         }
         let urls = sortedURLs.map((url) => {
           console.log('url in map', url);
+          let longURL = url.longURL;
+          let urlID = url.id;
           $('#main-folder-display').append(`
             <div">
-            <p onClick="goToRealURL(${url})">${url.shortURL}<p>
+            <p class="short-url" onClick="goToRealURL('${longURL}', '${urlID}')">${url.shortURL}<p>
             <p>${url.created_at}</p>
             <p>Number of visits for this URL: ${url.clickCount}</p>
             </div>
@@ -218,6 +224,12 @@ const sortByDate = (direction, folderTitle) => {
       }
     }
   }
+}
+
+const goToRealURL = (longURL, urlID) => {
+  var windowObjectReference;
+  console.log('yes', longURL, urlID);
+    windowObjectReference = window.open(`${longURL}`)
 }
 
 $('#submit-button').on('click', () => {

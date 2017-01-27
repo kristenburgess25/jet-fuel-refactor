@@ -1,3 +1,43 @@
 body {
-  background-color: magenta;
+  background-color: black;
+  margin: auto;
+  text-align: center;
+  font-family: 'Patua One', cursive;
+  display: block;
+  color: white;
 }
+
+input{
+  margin: 10px auto;
+  text-align: center;
+  border-radius: 5px;
+}
+
+button {
+  border-radius: 5px;
+}
+
+button:hover {
+  background-color: teal;
+}
+
+h1 {
+  color: teal;
+}
+
+h3:hover {
+  color: teal;
+}
+
+.short-url {
+  text-decoration: underline;
+  color: teal;
+}
+
+.short-url:hover {
+  color: maroon;
+}
+
+/*h3 {
+  color: white;
+}*/
