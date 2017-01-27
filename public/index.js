@@ -204,9 +204,11 @@ const sortByDate = (direction, folderTitle) => {
         }
         let urls = sortedURLs.map((url) => {
           console.log('url in map', url);
+          let longURL = url.longURL;
+          let urlID = url.id;
           $('#main-folder-display').append(`
             <div">
-            <p onClick="goToRealURL(${url})">${url.shortURL}<p>
+            <p onClick="goToRealURL('${longURL}', '${urlID}')">${url.shortURL}<p>
             <p>${url.created_at}</p>
             <p>Number of visits for this URL: ${url.clickCount}</p>
             </div>
@@ -218,6 +220,12 @@ const sortByDate = (direction, folderTitle) => {
       }
     }
   }
+}
+
+const goToRealURL = (longURL, urlID) => {
+  var windowObjectReference;
+  console.log('yes', longURL, urlID);
+    windowObjectReference = window.open(`${longURL}`)
 }
 
 $('#submit-button').on('click', () => {
