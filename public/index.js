@@ -52,6 +52,19 @@ const showOneFolder = (folderTitle) => {
         $('#main-folder-display').append(`
           <div>
           <h2 onClick="showURLs('${result[0].folderTitle}')">${result[0].folderTitle}</h2>
+          <button
+          id="sort-popularity-ascending"
+          onClick="sortByPopularity('ascending', '${result[0].folderTitle}')"
+          >
+          Sort URLs By Popularity (Ascending)
+          </button>
+
+          <button
+          id="sort-popularity-descending"
+          onClick="sortByPopularity('descending', '${result[0].folderTitle}')"
+          >
+          Sort URLs By Popularity (Descending)
+          </button>
           </div>
           `);
       } else {
@@ -73,7 +86,7 @@ const showURLs = (folderTitle) => {
         console.log('server response for showURLs', result);
         let urls = result.map((url) => {
           $('#main-folder-display').append(`
-            <div>
+            <div id="${url.id}">
             <p onClick="goToRealURL('${url.longURL}', '${url.parentFolder}', '${url.id}')">${url.shortURL}<p>
             <p>${url.created_at}</p>
             <p>Number of visits for this URL: ${url.clickCount}</p>
@@ -117,12 +130,38 @@ const saveFolder = () => {
   })
 }
 
+const sortByPopularity = (direction, folderTitle) => {
+  document.querySelector('#main-folder-display').innerHTML = '';
+  var hitAPI = new XMLHttpRequest();
+  hitAPI.open('GET', `/api/folders/${folderTitle}/urls`, true);
+  hitAPI.send();
+  hitAPI.onreadystatechange = function() {
+    if (hitAPI.readyState === XMLHttpRequest.DONE) {
+      if (hitAPI.status === 200) {
+        let result = JSON.parse(hitAPI.responseText);
+        console.log(result);
+        if ('ascending') {
+          result = result.sort((a, b) => {
+            return b.clickCount - a.clickCount
+          });
+        } else {
+          result = result.sort((a, b) => {
+            return a.clickCount - b.clickCount
+          });
+        }
+      console.log(result);
+      } else {
+        console.error('There was a problem with the API call.');
+      }
+    }
+  }
+}
+
 //create bookmarks
 $('#submit-button').on('click', () => {
   saveURL();
-
-
-  // showFolders() in setTimeout like below
+  setTimeout(showFolders, 300);
+  showFolders();
 })
 
 //create folders
@@ -133,9 +172,11 @@ $('#create-folder-button').on('click', () => {
 })
 
 $('#sort-popularity-ascending, #sort-popularity-descending').on("click", (event) => {
-  sortBookmarksByPopularity(event.target.id);
+  sortByPopularity(event.target.id);
 });
 
-$('#sort-date-ascending, #sort-date-descending').on("click", (event) => {
-  sortBookmarksByDate(event.target.id);
-});
+
+//
+// $('#sort-date-ascending, #sort-date-descending').on("click", (event) => {
+//   sortByDate(event.target.id);
+// });
