@@ -24,6 +24,7 @@ const showFolders = () => {
           opt.value = result[i].folderTitle;
           let text1 = document.createTextNode(result[i].folderTitle);
           opt.appendChild(text1);
+          // console.log('text', text1);
           document.querySelector('#bookmark-folder-input').appendChild(opt);
           $('#main-folder-display').append(`
             <div>

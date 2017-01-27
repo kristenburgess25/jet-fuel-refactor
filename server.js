@@ -71,7 +71,6 @@ app.post('/api/folders/:folderTitle/urls', (request, response) => {
   }
 
   database('urls').insert(url).then(() => { console.log('success')}).catch(console.log('failure'));
-
 });
 
 
@@ -98,3 +97,5 @@ app.get('/api/folders/urls', (request, response) => {
 app.listen(app.get('port'), () => {
   console.log('The HTTP server is listening at Port 3000.');
 });
+
+module.exports = app;
