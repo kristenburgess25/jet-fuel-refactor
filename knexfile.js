@@ -3,7 +3,7 @@ module.exports = {
 
   development: {
     client: 'pg',
-    connection: process.env.DATABASE_URL + `?ssl=true`,
+    connection: 'postgres://localhost/jet_fuel',
     migrations: {
       directory: './db/migrations'
     },

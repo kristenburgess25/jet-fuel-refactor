@@ -151,10 +151,16 @@ const saveFolder = () => {
 
 const sortByPopularity = (direction, folderTitle) => {
   document.querySelector('#main-folder-display').innerHTML = '';
+  $('#main-folder-display').append(`
+    <h3>
+    ${folderTitle}
+    </h3>
+    `)
   var hitAPI = new XMLHttpRequest();
   hitAPI.open('GET', `/api/folders/${folderTitle}/urls`, true);
   hitAPI.send();
   hitAPI.onreadystatechange = function() {
+
     if (hitAPI.readyState === XMLHttpRequest.DONE) {
       if (hitAPI.status === 200) {
         let result = JSON.parse(hitAPI.responseText);
@@ -172,6 +178,8 @@ const sortByPopularity = (direction, folderTitle) => {
           console.log('url in map', url);
           let longURL = url.longURL;
           let urlID = url.id;
+          let folderName = url.parentFolder;
+          console.log('parent', folderName)
           $('#main-folder-display').append(`
             <div">
             <p class="short-url" class="short-url" onClick="goToRealURL('${longURL}', '${urlID}')">${url.shortURL}<p>
