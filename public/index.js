@@ -200,6 +200,16 @@ const sortByDate = (direction, folderTitle) => {
             return b.rawDate - a.rawDate;
           });
         }
+        let urls = sortedURLs.map((url) => {
+          console.log('url in map', url);
+          $('#main-folder-display').append(`
+            <div">
+            <p onClick="goToRealURL(${url})">${url.shortURL}<p>
+            <p>${url.created_at}</p>
+            <p>Number of visits for this URL: ${url.clickCount}</p>
+            </div>
+            `);
+        })
         console.log('sorted', sortedURLs);
       } else {
         console.error('There was a problem with the API call.');
