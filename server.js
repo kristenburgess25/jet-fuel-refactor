@@ -24,18 +24,20 @@ app.get('/api/folders', (request, response) => {
   }).catch(console.error('Problem with database.'));
 });
 
-app.get('/api/folders/:id', (request, response) => {
-  const { id } = request.params;
-  database('folders').where('id', id).select().then((folder) => {
+app.get('/api/folders/:folderTitle', (request, response) => {
+  const { folderTitle } = request.params;
+  database('folders').where('folderTitle', folderTitle).select().then((folder) => {
     response.status(200).json(folder);
   }).catch((error) => {
     console.error('There was a problem with the API call.')
   });
 });
 
-app.get('/api/folders/:id/urls', (request, response) => {
-  const { id } = request.params;
-  database('urls').where('folder_id',  id).select().then((urls) => {
+app.get('/api/folders/:folderTitle/urls', (request, response) => {
+  console.log('it hit endpoint');
+  const { folderTitle } = request.params;
+  // console.log(folderTitle);
+  database('urls').where('parentFolder',  folderTitle).select().then((urls) => {
     response.status(200).json(urls);
   }).catch((error) => {
     console.error('There was a problem with the API call.')
@@ -46,10 +48,10 @@ app.post('/api/folders/:id/urls', (request, response) => {
 
 });
 
-app.put('/api/folders/:id/urls/:urlid', (request, response) => {
-  const { id, urlid } = request.params;
+app.put('/api/folders/:folderId/urls/:urlid', (request, response) => {
+  const { folderId, urlid } = request.params;
 
-  database('urls').where('folder_id',  id).andWhere('id', id).insert({
+  database('urls').where('folder_id',  folderId).andWhere('id', id).insert({
     longURL: 'http://www.foo.com/',
     shortURL: shortenURL('http://www.foo.com/'),
     parentFolder: 'sports',
