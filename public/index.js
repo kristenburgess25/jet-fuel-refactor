@@ -105,7 +105,8 @@ const showURLs = (folderTitle) => {
           $('#main-folder-display').append(`
             <div>
             <p id="${url.id}"
-            class="${url.parentFolder} clickable-link"
+            class="${url.parentFolder}
+            clickable-link"
             >
             ${url.shortURL}
             <p>
@@ -121,10 +122,14 @@ const showURLs = (folderTitle) => {
 }
 
 $(document).on('click', '.clickable-link', (e) => {
+  // console.log('it hits lower function');
   let folderTitle = e.target.className.split(' ')[0];
   let id = e.target.id;
   // axios.get('/api/folders/' + folderTitle + '/urls/' + id)
   axios.get(`/api/folders/${folderTitle}/urls/${id}`)
+  // axios.patch(`/api/folders/${folderTitle}/urls/${id}`, {
+  //   clickCount: 22,
+  // });
 })
 
 // const openRealURL = () => {
