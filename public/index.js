@@ -173,7 +173,7 @@ const sortByPopularity = (direction, folderTitle) => {
           let urlID = url.id;
           $('#main-folder-display').append(`
             <div">
-            <p onClick="goToRealURL('${longURL}', '${urlID}')">${url.shortURL}<p>
+            <p class="short-url" class="short-url" onClick="goToRealURL('${longURL}', '${urlID}')">${url.shortURL}<p>
             <p>${url.created_at}</p>
             <p>Number of visits for this URL: ${url.clickCount}</p>
             </div>
@@ -211,7 +211,7 @@ const sortByDate = (direction, folderTitle) => {
           let urlID = url.id;
           $('#main-folder-display').append(`
             <div">
-            <p onClick="goToRealURL('${longURL}', '${urlID}')">${url.shortURL}<p>
+            <p class="short-url" onClick="goToRealURL('${longURL}', '${urlID}')">${url.shortURL}<p>
             <p>${url.created_at}</p>
             <p>Number of visits for this URL: ${url.clickCount}</p>
             </div>
