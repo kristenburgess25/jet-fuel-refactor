@@ -119,8 +119,7 @@ const showURLs = (folderTitle) => {
 //need to comment back in the windowObjectReference stuff later
 const goToRealURL = (url, parentFolder, urlid) => {
   // var windowObjectReference;
-  console.log(`/api/folders/${parentFolder}/urls/${urlid}`);
-  axios.put(`http://localhost:3000/api/folders/${parentFolder}/urls/${urlid}`, null);
+  axios.put(`/api/folders/${parentFolder}/urls/${urlid}`, null);
   // setTimeout(() => {
   //   windowObjectReference = window.open(`${url}`)
   // }, 2000);
