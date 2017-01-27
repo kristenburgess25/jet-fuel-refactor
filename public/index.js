@@ -103,7 +103,7 @@ const showURLs = (folderTitle) => {
         let urls = result.map((url) => {
           $('#main-folder-display').append(`
             <div id="${url.id}">
-            <p onClick="goToRealURL('${url.longURL}', '${url.parentFolder}', '${url.id}')">${url.shortURL}<p>
+            <p onClick="goToRealURL('${url}')">${url.shortURL}<p>
             <p>${url.created_at}</p>
             <p>Number of visits for this URL: ${url.clickCount}</p>
             </div>
@@ -116,13 +116,12 @@ const showURLs = (folderTitle) => {
   }
 }
 
-//need to comment back in the windowObjectReference stuff later
-const goToRealURL = (url, parentFolder, urlid) => {
-  // var windowObjectReference;
-  axios.put(`/api/folders/${parentFolder}/urls/${urlid}`, null);
-  // setTimeout(() => {
-  //   windowObjectReference = window.open(`${url}`)
-  // }, 2000);
+const goToRealURL = (url) => {
+  var windowObjectReference;
+  axios.put(`/api/folders/${url.parentFolder}/urls/${url.id}`, null);
+  setTimeout(() => {
+    windowObjectReference = window.open(`${url}`)
+  }, 2000);
 }
 
 showFolders();

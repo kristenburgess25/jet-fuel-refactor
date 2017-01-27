@@ -86,13 +86,13 @@ app.post('/api/folders', (request, response) => {
 
 app.put('/api/folders/:folderId/urls/:urlid', (request, response) => {
   const { folderId, urlid } = request.params;
-
+  console.log(request.body);
   database('urls').where('folder_id',  folderId).andWhere('id', urlid).insert({
     longURL: 'http://www.foo.com/',
     shortURL: shortenURL('http://www.foo.com/'),
-    parentFolder: 'sports',
+    parentFolder: 'Sports',
     folder_id: 1167,
-    clickCount: clickCount + 1,
+    clickCount: 300,
     requestType: 'bookmark-update',
   }).then(() => {
     console.log('success');
