@@ -3,6 +3,7 @@ let url = $('#bookmark-url-input');
 let folder = $('#bookmark-folder-input');
 let newFolder = $('#new-folder-input');
 
+
 const showFolders = () => {
   document.querySelector('#main-folder-display').innerHTML = '';
   var hitAPI = new XMLHttpRequest();
@@ -12,7 +13,6 @@ const showFolders = () => {
     if (hitAPI.readyState === XMLHttpRequest.DONE) {
       if (hitAPI.status === 200) {
         let result = JSON.parse(hitAPI.responseText);
-        console.log('showFolders', result)
         document.querySelector('#bookmark-folder-input').innerHTML = '';
 
         let defaultOption = document.createElement('OPTION');
@@ -25,7 +25,6 @@ const showFolders = () => {
           opt.value = result[i].folderTitle;
           let text1 = document.createTextNode(result[i].folderTitle);
           opt.appendChild(text1);
-          // console.log('text', text1);
           document.querySelector('#bookmark-folder-input').appendChild(opt);
           $('#main-folder-display').append(`
             <div>
@@ -33,7 +32,6 @@ const showFolders = () => {
             </div>
             `);
         }
-        console.log('The server response for showFolders', JSON.parse(hitAPI.responseText));
       } else {
         console.error('There was a problem with the API call.');
       }
@@ -55,7 +53,6 @@ const showOneFolder = (folderTitle) => {
     if (hitAPI.readyState === XMLHttpRequest.DONE) {
       if (hitAPI.status === 200) {
         let result = JSON.parse(hitAPI.responseText);
-        console.log('server response for showOneFolder', result);
         $('#main-folder-display').append(`
           <div>
           <h2 onClick="showURLs('${result[0].folderTitle}')">${result[0].folderTitle}</h2>
@@ -106,12 +103,11 @@ const showURLs = (folderTitle) => {
     if (hitAPI.readyState === XMLHttpRequest.DONE) {
       if (hitAPI.status === 200) {
         let result = JSON.parse(hitAPI.responseText);
-        console.log('server response for showURLs', result);
         let urls = result.map((url) => {
-          console.log('url in map', url);
           const longURL = url.longURL;
           const urlID = url.id;
           const folderTitle = url.parentFolder;
+          const createdAt = url.created_at.slice(0,10);
           $('#main-folder-display').append(`
             <div>
             <p id="${url.id}"
@@ -120,7 +116,7 @@ const showURLs = (folderTitle) => {
             >
             <p class="short-url" onClick="goToRealURL('${longURL}', '${urlID}', '${folderTitle}')">${url.shortURL}<p>
             </p>
-            <p> Date added: ${url.created_at} </p>
+            <p> Date added: ${createdAt} </p>
             <p>Times visited: ${url.clickCount}</p>
             </div>
             `);
@@ -133,21 +129,11 @@ const showURLs = (folderTitle) => {
 }
 
 const increaseClickCount = (longURL, urlID, folderTitle) => {
-  console.log('hello', longURL, urlID, folderTitle);
   axios.get(`/api/folders/${folderTitle}/urls/${urlID}`)
 }
 
-// $(document).on('click', '.short-url', (e) => {
-//     increaseClickCount()
-//   let folderTitle = e.target.className.split(' ')[0];
-//   let id = e.target.id;
-//
-// })
-
-
 const goToRealURL = (longURL, urlID, folderTitle) => {
   var windowObjectReference;
-  console.log('yes', longURL, urlID);
     windowObjectReference = window.open(`${longURL}`)
   increaseClickCount(longURL, urlID, folderTitle);
 }
@@ -198,11 +184,9 @@ const sortByPopularity = (direction, folderTitle) => {
           });
         }
         let urls = sortedURLs.map((url) => {
-          console.log('url in map', url);
           let longURL = url.longURL;
           let urlID = url.id;
           let folderName = url.parentFolder;
-          console.log('parent', folderName)
           $('#main-folder-display').append(`
             <div">
             <p class="short-url" onClick="goToRealURL('${longURL}', '${urlID}')">${url.shortURL}<p>
@@ -243,7 +227,6 @@ const sortByDate = (direction, folderTitle) => {
           });
         }
         let urls = sortedURLs.map((url) => {
-          console.log('url in map', url);
           let longURL = url.longURL;
           let urlID = url.id;
           $('#main-folder-display').append(`
@@ -254,7 +237,6 @@ const sortByDate = (direction, folderTitle) => {
             </div>
             `);
         })
-        console.log('sorted', sortedURLs);
       } else {
         console.error('There was a problem with the API call.');
       }
