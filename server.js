@@ -85,8 +85,8 @@ app.post('/api/folders', (request, response) => {
 })
 
 app.put('/api/folders/:folderId/urls/:urlid', (request, response) => {
-  const { folderId, urlid } = request.params;
   console.log(request.body);
+  const { folderId, urlid } = request.params;
   database('urls').where('folder_id',  folderId).andWhere('id', urlid).insert({
     longURL: 'http://www.foo.com/',
     shortURL: shortenURL('http://www.foo.com/'),

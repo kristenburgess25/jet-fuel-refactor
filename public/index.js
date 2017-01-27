@@ -101,9 +101,10 @@ const showURLs = (folderTitle) => {
         let result = JSON.parse(hitAPI.responseText);
         console.log('server response for showURLs', result);
         let urls = result.map((url) => {
+          console.log('url in map', url);
           $('#main-folder-display').append(`
-            <div id="${url.id}">
-            <p onClick="goToRealURL('${url}')">${url.shortURL}<p>
+            <div">
+            <p onClick="goToRealURL(${url})">${url.shortURL}<p>
             <p>${url.created_at}</p>
             <p>Number of visits for this URL: ${url.clickCount}</p>
             </div>
@@ -117,11 +118,11 @@ const showURLs = (folderTitle) => {
 }
 
 const goToRealURL = (url) => {
-  var windowObjectReference;
-  axios.put(`/api/folders/${url.parentFolder}/urls/${url.id}`, null);
-  setTimeout(() => {
-    windowObjectReference = window.open(`${url}`)
-  }, 2000);
+  // var windowObjectReference;
+  axios.put(`/api/folders/${url.parentFolder}/urls/${url.id}`, url);
+  // setTimeout(() => {
+  //   windowObjectReference = window.open(`${url}`)
+  // }, 2000);
 }
 
 showFolders();
@@ -163,7 +164,16 @@ const sortByPopularity = (direction, folderTitle) => {
             return b.clickCount - a.clickCount
           });
         }
-        console.log('sorted', sortedURLs);
+        let urls = sortedURLs.map((url) => {
+          console.log('url in map', url);
+          $('#main-folder-display').append(`
+            <div">
+            <p onClick="goToRealURL(${url})">${url.shortURL}<p>
+            <p>${url.created_at}</p>
+            <p>Number of visits for this URL: ${url.clickCount}</p>
+            </div>
+            `);
+        })
       } else {
         console.error('There was a problem with the API call.');
       }
