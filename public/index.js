@@ -185,11 +185,11 @@ const sortByDate = (direction, folderTitle) => {
         let sortedURLs;
         if (direction === 'ascending') {
           sortedURLs = result.sort((a, b) => {
-            return parseInt(a.created_at, 10) - parseInt(b.created_at, 10)
+            return a.rawDate - b.rawDate;
           });
         } else if (direction === 'descending') {
           sortedURLs = result.sort((a, b) => {
-            return parseInt(b.created_at, 10) - parseInt(a.created_at, 10)
+            return b.rawDate - a.rawDate;
           });
         }
         console.log('sorted', sortedURLs);
