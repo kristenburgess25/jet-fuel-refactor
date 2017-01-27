@@ -139,17 +139,18 @@ const sortByPopularity = (direction, folderTitle) => {
     if (hitAPI.readyState === XMLHttpRequest.DONE) {
       if (hitAPI.status === 200) {
         let result = JSON.parse(hitAPI.responseText);
-        console.log(result);
-        if ('ascending') {
-          result = result.sort((a, b) => {
-            return b.clickCount - a.clickCount
-          });
-        } else {
-          result = result.sort((a, b) => {
+        let sortedURLs;
+        // console.log('start', result)
+        if (direction === 'ascending') {
+          sortedURLs = result.sort((a, b) => {
             return a.clickCount - b.clickCount
           });
+        } else if (direction === 'descending') {
+          sortedURLs = result.sort((a, b) => {
+            return b.clickCount - a.clickCount
+          });
         }
-      console.log(result);
+        console.log('sorted', sortedURLs);
       } else {
         console.error('There was a problem with the API call.');
       }
