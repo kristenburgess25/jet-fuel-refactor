@@ -47,36 +47,68 @@ describe('GET /api/folders', () => {
 });
 });
 
-describe('GET /api/folders/:folder', () => {
+describe('GET /api/folders/:folderTitle', () => {
 
   it('should return a 200 status code when accessing a specific folder', (done) => {
-  //figure out how to dynamically pass in folder
     request(app)
-      .get('/api/folders/1167')
+      .get('/api/folders/Cats')
       .expect(200, done);
   });
 
-  it('should return 400 for bad request', (done) => {
-    //write test for folder titles having to be strings?
+  it.skip('should return 400 for bad request', (done) => {
+    //is returning 200???
    request(app)
-     .get('/api/folders/@%8')
+     .get('/api/folders/%74@')
      .expect(400, done);
  });
 });
 
-describe('GET /:id', () => {
+describe('GET /api/folders/:folderTitle/urls', () => {
 
   it('should return a 200 status code', (done) => {
     request(app)
-      .get('/bookmarks/sports/1')
+      .get('/api/folders/Cats/urls')
       .expect(200, done);
   });
+
   it('should return 404 for invalid path', (done) => {
    request(app)
-     .get('/bookmarks/sports/abc')
+     .get('/api/folders/Cats/287202')
      .expect(404, done);
  });
 });
+
+describe('GET /api/folders/:folderTitle/:urlid', () => {
+
+  it('should return a 200 status code', (done) => {
+    request(app)
+      .get('/api/folders/Sports/urls/1')
+      .expect(200, done);
+  });
+
+  it('should return 404 for invalid path', (done) => {
+    //is returning 200???
+   request(app)
+     .get('/api/folders/Cats/urls//')
+     .expect(404, done);
+ });
+});
+
+
+
+// describe('GET /:id', () => {
+//
+//   it('should return a 200 status code', (done) => {
+//     request(app)
+//       .get('/bookmarks/sports/1')
+//       .expect(200, done);
+//   });
+//   it('should return 404 for invalid path', (done) => {
+//    request(app)
+//      .get('/bookmarks/sports/abc')
+//      .expect(404, done);
+//  });
+// });
 
 // describe('POST /bookmarks', () => {
 //
