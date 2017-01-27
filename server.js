@@ -52,6 +52,7 @@ app.post('/api/folders/:folderTitle/urls', (request, response) => {
     folder_id,
     clickCount,
     created_at: new Date,
+    rawDate: parseInt(Date.now().toString().slice(8, 13)),
     requestType,
   }
 

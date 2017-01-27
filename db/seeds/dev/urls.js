@@ -12,6 +12,7 @@ exports.seed = function(knex, Promise) {
         folder_id: 1167,
         clickCount: 0,
         created_at: new Date,
+        rawDate: parseInt(Date.now().toString().slice(8, 13)),
         requestType: 'bookmark-update',
       }),
       knex('urls').insert({
@@ -22,7 +23,8 @@ exports.seed = function(knex, Promise) {
         folder_id: 1167,
         clickCount: 2,
         created_at: new Date,
-        requestType: 'bookmark-update', 
+        rawDate: parseInt(Date.now().toString().slice(8, 13)),
+        requestType: 'bookmark-update',
       }),
       knex('urls').insert({
         longURL: 'http://www.cats.com/',
@@ -32,6 +34,7 @@ exports.seed = function(knex, Promise) {
         folder_id: 1169,
         clickCount: 0,
         created_at: new Date,
+        rawDate: parseInt(Date.now().toString().slice(8, 13)),
         requestType: 'bookmark-update',
       }),
       knex('urls').insert({
@@ -42,6 +45,7 @@ exports.seed = function(knex, Promise) {
         folder_id: 1169,
         clickCount: 2,
         created_at: new Date,
+        rawDate: parseInt(Date.now().toString().slice(8, 13)),
         requestType: 'bookmark-update',
       })
     ]);
