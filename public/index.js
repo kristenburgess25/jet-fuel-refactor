@@ -103,9 +103,8 @@ const showURLs = (folderTitle) => {
         let urls = result.map((url) => {
           console.log('url in map', url);
           $('#main-folder-display').append(`
-            <div">
-            <p onClick="goToRealURL(${url})">${url.shortURL}<p>
-            <p>${url.created_at}</p>
+            <div>
+            <p onClick="goToRealURL('${url.longURL}', '${url.parentFolder}', '${url.id}')">${url.shortURL}<p>
             <p>Number of visits for this URL: ${url.clickCount}</p>
             </div>
             `);
@@ -117,9 +116,10 @@ const showURLs = (folderTitle) => {
   }
 }
 
-const goToRealURL = (url) => {
+const goToRealURL = (url, parentFolder, id) => {
+  console.log(url, parentFolder, id);
   // var windowObjectReference;
-  axios.put(`/api/folders/${url.parentFolder}/urls/${url.id}`, url);
+  axios.put(`/api/folders/${parentFolder}/urls/${id}`, url);
   // setTimeout(() => {
   //   windowObjectReference = window.open(`${url}`)
   // }, 2000);
@@ -218,26 +218,14 @@ const sortByDate = (direction, folderTitle) => {
   }
 }
 
-//create bookmarks
 $('#submit-button').on('click', () => {
   saveURL();
   setTimeout(showFolders, 300);
   showFolders();
 })
 
-//create folders
 $('#create-folder-button').on('click', () => {
  saveFolder();
  setTimeout(showFolders, 300);
  showFolders();
 })
-
-$('#sort-popularity-ascending, #sort-popularity-descending').on("click", (event) => {
-  sortByPopularity(event.target.id);
-});
-
-
-//
-// $('#sort-date-ascending, #sort-date-descending').on("click", (event) => {
-//   sortByDate(event.target.id);
-// });
